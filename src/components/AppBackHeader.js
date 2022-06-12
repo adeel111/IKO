@@ -1,6 +1,7 @@
 import React from 'react';
 import {View, Text, StyleSheet, Dimensions} from 'react-native';
 import Entypo from 'react-native-vector-icons/Entypo';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import {moderateScale} from '../Theme/Dimensions';
 import {useNavigation} from '@react-navigation/native';
@@ -8,17 +9,32 @@ import Theme from '../Theme/Theme';
 
 const {width} = Dimensions.get('window');
 
-const AppBackHeader = ({title, isMenu = true, onPress}) => {
+const AppBackHeader = ({
+  title,
+  isMenu = true,
+  onPress = () => {},
+  isBackIcon = false,
+  isFilterIcon = false,
+}) => {
   const navigation = useNavigation();
   return (
     <View style={styles.header}>
       <View style={styles.innerView}>
-        <Entypo
-          name="cross"
-          color={'#043573'}
-          size={moderateScale(30)}
-          onPress={() => navigation.goBack()}
-        />
+        {isBackIcon ? (
+          <Ionicons
+            name="arrow-back"
+            color={'#043573'}
+            size={moderateScale(28)}
+            onPress={() => navigation.goBack()}
+          />
+        ) : (
+          <Entypo
+            name="cross"
+            color={'#043573'}
+            size={moderateScale(30)}
+            onPress={() => navigation.goBack()}
+          />
+        )}
         <View style={{marginLeft: moderateScale(20)}}>
           <Text style={styles.headerTag}>{title}</Text>
           <Text style={styles.demo}>DEMO</Text>
@@ -33,6 +49,14 @@ const AppBackHeader = ({title, isMenu = true, onPress}) => {
           style={{
             paddingHorizontal: moderateScale(3),
           }}
+        />
+      ) : null}
+      {isFilterIcon ? (
+        <Ionicons
+          name="filter"
+          color={'#043573'}
+          size={moderateScale(26)}
+          // onPress={() => navigation.goBack()}
         />
       ) : null}
     </View>

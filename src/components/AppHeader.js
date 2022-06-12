@@ -1,5 +1,12 @@
 import React from 'react';
-import {View, Text, StyleSheet, Dimensions} from 'react-native';
+import {
+  View,
+  Text,
+  Animated,
+  StyleSheet,
+  Dimensions,
+  TouchableOpacity,
+} from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Entypo from 'react-native-vector-icons/Entypo';
 import Fontisto from 'react-native-vector-icons/Fontisto';
@@ -9,23 +16,47 @@ import Theme from '../Theme/Theme';
 
 const {width} = Dimensions.get('window');
 
-const AppHeader = ({title, menuIcon = false}) => {
+const AppHeader = ({
+  title,
+  menuIcon = false,
+  leftIconClick = () => {},
+  spinTheIcon,
+  isSpinHomeIcon,
+  onPress,
+}) => {
   const navigation = useNavigation();
+
   return (
     <View style={styles.header}>
-      <View style={styles.headerLeftContainer}>
+      <TouchableOpacity
+        activeOpacity={0.7}
+        onPress={() => leftIconClick()}
+        style={styles.headerLeftContainer}>
         <View style={styles.txtContainer}>
           <Text style={styles.userName}>JI</Text>
         </View>
-        <AntDesign
-          name="down"
-          color={'#043570'}
-          size={moderateScale(16)}
-          style={{
-            marginLeft: moderateScale(5),
-          }}
-        />
-      </View>
+        <Animated.View
+          style={
+            !isSpinHomeIcon
+              ? {
+                  transform: [
+                    {
+                      rotate: spinTheIcon,
+                    },
+                  ],
+                }
+              : null
+          }>
+          <AntDesign
+            name="down"
+            color={'#043570'}
+            size={moderateScale(16)}
+            style={{
+              marginLeft: moderateScale(5),
+            }}
+          />
+        </Animated.View>
+      </TouchableOpacity>
       {title === '' ? (
         <Text />
       ) : (
@@ -38,6 +69,7 @@ const AppHeader = ({title, menuIcon = false}) => {
           name="dots-three-vertical"
           color={'#043570'}
           size={moderateScale(18)}
+          onPress={() => onPress()}
         />
       ) : (
         <Fontisto

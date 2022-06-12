@@ -12,10 +12,10 @@ import {
 } from 'react-native-popup-menu';
 
 import All from './All';
-// import Authorization from './Authorization';
-// import Messages from './Messages';
-// import Offers from './Offers';
-// import Events from './Events';
+import Authorization from './Authorization';
+import Messages from './Messages';
+import Offers from './Offers';
+import Events from './Events';
 import AppStatusBar from '../../../components/AppStatusBar';
 import AppBackHeader from '../../../components/AppBackHeader';
 
@@ -154,11 +154,10 @@ const Notifications = ({navigation}) => {
           }}
           showPagination={true}>
           <All />
-          {/* <Cards />
-          <Saving />
-          <LoansCredits />
-          <Investing />
-          <Insurance /> */}
+          <Authorization />
+          <Messages />
+          <Offers />
+          <Events />
         </SwiperFlatList>
       </View>
     </SafeAreaView>

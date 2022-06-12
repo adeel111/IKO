@@ -13,7 +13,7 @@ import {
 
 const {width, height} = Dimensions.get('window');
 
-const All = () => {
+const Events = () => {
   const data = [
     {title: 'October 2019', data: [1]},
     {title: 'January 2018', data: [1, 2]},
@@ -210,4 +210,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default All;
+export default Events;

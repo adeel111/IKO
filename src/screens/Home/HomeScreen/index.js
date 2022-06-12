@@ -28,6 +28,7 @@ import {
   MenuOption,
   MenuTrigger,
 } from 'react-native-popup-menu';
+import IndividualProfile from '../../../components/IndividualProfile';
 
 const {width, height} = Dimensions.get('window');
 
@@ -53,9 +54,18 @@ const HomeScreen = ({navigation}) => {
   ]);
 
   const [activeDot, setActiveDot] = useState(0);
+  const [spinHomeIcon, setSpinHomeIcon] = useState(false);
+  const [showProfile, setShowProfile] = useState(false);
   const [showBlikCode, setShowBlikCode] = useState(false);
 
   const fadeAnim = useRef(new Animated.Value(0)).current;
+
+  useEffect(() => {
+    if (showProfile) {
+      navigation.getParent()?.setOptions({tabBarStyle: {display: 'none'}});
+      return () => navigation.getParent()?.setOptions({tabBarStyle: undefined});
+    }
+  }, [showProfile]);
 
   useEffect(() => {
     setTimeout(() => {
@@ -64,21 +74,19 @@ const HomeScreen = ({navigation}) => {
   }, []);
 
   const rotate = () => {
-    // Will change fadeAnim value to 1 in 5 seconds
     Animated.timing(fadeAnim, {
       toValue: 1,
-      duration: 500,
-      easing: Easing.linear, // Easing is an additional import from react-native
+      duration: 300,
+      easing: Easing.linear,
       useNativeDriver: true,
     }).start();
   };
 
   const rotateBack = () => {
-    // Will change fadeAnim value to 0 in 3 seconds
     Animated.timing(fadeAnim, {
       toValue: 0,
-      duration: 500,
-      easing: Easing.linear, // Easing is an additional import from react-native
+      duration: 300,
+      easing: Easing.linear,
       useNativeDriver: true,
     }).start();
   };
@@ -90,7 +98,10 @@ const HomeScreen = ({navigation}) => {
 
   const flatlistRenderItem = ({item, index}) => {
     return (
-      <View style={styles.bottomFlatlistCard}>
+      <TouchableOpacity
+        activeOpacity={0.7}
+        style={styles.bottomFlatlistCard}
+        onPress={() => navigation.navigate('My Products', {tab: 1})}>
         <View
           style={{
             flexDirection: 'row',
@@ -138,7 +149,7 @@ const HomeScreen = ({navigation}) => {
             </MenuOption>
           </MenuOptions>
         </Menu> */}
-      </View>
+      </TouchableOpacity>
     );
   };
 
@@ -171,13 +182,17 @@ const HomeScreen = ({navigation}) => {
                 borderWidth: 0.5,
                 borderColor: '#888888',
               },
-            ]}>
+            ]}
+            onPress={() => navigation.navigate('History')}>
             <Fontisto name="history" color="#043570" size={moderateScale(16)} />
             <Text style={[styles.swiperButtonTag, {color: 'black'}]}>
               History
             </Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.swiperButtonContainer}>
+          <TouchableOpacity
+            activeOpacity={0.7}
+            style={styles.swiperButtonContainer}
+            onPress={() => navigation.navigate('Transfer')}>
             <FontAwesome name="money" color="white" size={moderateScale(18)} />
             <Text style={styles.swiperButtonTag}>Transfer</Text>
           </TouchableOpacity>
@@ -201,179 +216,204 @@ const HomeScreen = ({navigation}) => {
   return (
     <SafeAreaView style={styles.mainContainer} forceInset={{top: 'never'}}>
       <AppStatusBar />
-      <AppHeader title="" />
-      <ScrollView
-        contentContainerStyle={{
-          paddingBottom: moderateScale(10),
+      <AppHeader
+        title=""
+        leftIconClick={() => {
+          if (showProfile) {
+            rotateBack();
+            setShowProfile(false);
+            setSpinHomeIcon(false);
+          } else {
+            rotate();
+            setShowProfile(true);
+            setSpinHomeIcon(false);
+          }
         }}
-        showsVerticalScrollIndicator={false}>
-        <TouchableOpacity activeOpacity={0.7} style={styles.btnContainer}>
-          <Text style={styles.btnTxtStyle}>DEMO</Text>
-        </TouchableOpacity>
-        <View
-          style={{
-            width: (width / 100) * 90,
-            paddingHorizontal: moderateScale(15),
-            paddingVertical: moderateScale(20),
-            backgroundColor: 'red',
-            alignSelf: 'center',
-            marginTop: moderateScale(20),
-            paddingLeft: moderateScale(70),
-          }}>
-          <Text
-            style={{
-              color: 'white',
-              fontFamily: Theme.fontFamily.bold,
-              position: 'absolute',
-              top: moderateScale(20),
-              left: moderateScale(20),
-              fontSize: moderateScale(40),
-            }}>
-            i
-          </Text>
+        spinTheIcon={spin}
+        isSpinHomeIcon={spinHomeIcon}
+      />
+      {showProfile ? (
+        <IndividualProfile />
+      ) : (
+        <ScrollView
+          contentContainerStyle={{
+            paddingBottom: moderateScale(10),
+          }}
+          showsVerticalScrollIndicator={false}>
+          <TouchableOpacity activeOpacity={0.7} style={styles.btnContainer}>
+            <Text style={styles.btnTxtStyle}>DEMO</Text>
+          </TouchableOpacity>
           <View
             style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              justifyContent: 'space-between',
+              width: (width / 100) * 90,
+              paddingHorizontal: moderateScale(15),
+              paddingVertical: moderateScale(20),
+              backgroundColor: 'red',
+              alignSelf: 'center',
+              marginTop: moderateScale(20),
+              paddingLeft: moderateScale(70),
             }}>
             <Text
               style={{
                 color: 'white',
-                fontFamily: Theme.fontFamily.regular,
-                fontSize: moderateScale(18),
+                fontFamily: Theme.fontFamily.bold,
+                position: 'absolute',
+                top: moderateScale(20),
+                left: moderateScale(20),
+                fontSize: moderateScale(40),
               }}>
-              Demo mode
+              i
             </Text>
-            <Entypo name="cross" color="white" size={moderateScale(22)} />
-          </View>
-          <Text
-            style={{
-              color: 'white',
-              fontFamily: Theme.fontFamily.regular,
-              fontSize: moderateScale(14),
-              textAlign: 'left',
-            }}>
-            {'\n\n'}
-            You are using demo mode of the IKO app. Active the app for free.
-          </Text>
-          <TouchableOpacity
-            activeOpacity={0.7}
-            style={styles.smallBtnContainer}>
-            <Text style={styles.smallBtnTxtStyle}>More about IKO</Text>
-          </TouchableOpacity>
-        </View>
-        <Carousel
-          autoplay={false}
-          sliderWidth={width}
-          layout={'default'}
-          onSnapToItem={index => {
-            setActiveDot(index);
-          }}
-          contentContainerStyle={{
-            marginTop: moderateScale(29),
-          }}
-          itemWidth={width}
-          data={accounts}
-          renderItem={accountsRenderItem}
-        />
-        <Pagination
-          activeDotIndex={activeDot}
-          activeOpacity={1}
-          dotColor="#043570"
-          dotStyle={{
-            width: moderateScale(10),
-            height: moderateScale(10),
-            borderRadius: 100,
-            marginHorizontal: moderateScale(-10),
-          }}
-          containerStyle={{
-            opacity: 1,
-          }}
-          dotsLength={accounts.length}
-          inactiveDotColor="white"
-          inactiveDotStyle={{
-            borderWidth: 3,
-            borderColor: '#043570',
-            width: moderateScale(20),
-            height: moderateScale(20),
-            borderRadius: 100,
-            marginHorizontal: moderateScale(-20),
-            backgroundColor: 'white',
-            opacity: 1,
-          }}
-        />
-        <View
-          style={[
-            styles.blikWrapper,
-            {
-              borderBottomLeftRadius: showBlikCode ? 0 : moderateScale(5),
-              borderBottomRightRadius: showBlikCode ? 0 : moderateScale(5),
-            },
-          ]}>
-          <View style={styles.blikLeftContainer}>
-            <Image
-              style={styles.blik}
-              resizeMode="contain"
-              source={require('../../../assets/images/Blik.jpg')}
-            />
-            <Text style={styles.blikTag}>BLIK code</Text>
-          </View>
-          <TouchableOpacity
-            activeOpacity={1}
-            onPress={() => {
-              if (showBlikCode === true) {
-                rotateBack();
-                setShowBlikCode(false);
-              } else if (showBlikCode === false) {
-                rotate();
-                setShowBlikCode(true);
-              }
-            }}
-            style={styles.blikRightContainer}>
-            <Animated.View
-              style={{
-                transform: [
-                  {
-                    rotate: spin,
-                  },
-                ],
-              }}>
-              <AntDesign
-                name="down"
-                color={'#043570'}
-                size={moderateScale(16)}
-                style={{
-                  marginLeft: moderateScale(5),
-                }}
-              />
-            </Animated.View>
-          </TouchableOpacity>
-        </View>
-        {showBlikCode && (
-          <View style={[styles.blikExtended]}>
-            <Text style={styles.blikCode}>123 456</Text>
             <View
               style={{
-                width: '80%',
-                height: moderateScale(7),
-                backgroundColor: 'lightgrey',
-                borderRadius: 100,
-                marginTop: moderateScale(10),
-                overflow: 'hidden',
+                flexDirection: 'row',
+                alignItems: 'center',
+                justifyContent: 'space-between',
               }}>
+              <Text
+                style={{
+                  color: 'white',
+                  fontFamily: Theme.fontFamily.regular,
+                  fontSize: moderateScale(18),
+                }}>
+                Demo mode
+              </Text>
+              <Entypo name="cross" color="white" size={moderateScale(22)} />
+            </View>
+            <Text
+              style={{
+                color: 'white',
+                fontFamily: Theme.fontFamily.regular,
+                fontSize: moderateScale(14),
+                textAlign: 'left',
+              }}>
+              {'\n\n'}
+              You are using demo mode of the IKO app. Active the app for free.
+            </Text>
+            <TouchableOpacity
+              activeOpacity={0.7}
+              style={styles.smallBtnContainer}>
+              <Text style={styles.smallBtnTxtStyle}>More about IKO</Text>
+            </TouchableOpacity>
+          </View>
+          <Carousel
+            autoplay={false}
+            sliderWidth={width}
+            layout={'default'}
+            onSnapToItem={index => {
+              setActiveDot(index);
+            }}
+            contentContainerStyle={{
+              marginTop: moderateScale(29),
+            }}
+            itemWidth={width}
+            data={accounts}
+            renderItem={accountsRenderItem}
+          />
+          <Pagination
+            activeDotIndex={activeDot}
+            activeOpacity={1}
+            dotColor="#043570"
+            dotStyle={{
+              width: moderateScale(10),
+              height: moderateScale(10),
+              borderRadius: 100,
+              marginHorizontal: moderateScale(-10),
+            }}
+            containerStyle={{
+              opacity: 1,
+            }}
+            dotsLength={accounts.length}
+            inactiveDotColor="white"
+            inactiveDotStyle={{
+              borderWidth: 3,
+              borderColor: '#043570',
+              width: moderateScale(20),
+              height: moderateScale(20),
+              borderRadius: 100,
+              marginHorizontal: moderateScale(-20),
+              backgroundColor: 'white',
+              opacity: 1,
+            }}
+          />
+          <View
+            style={[
+              styles.blikWrapper,
+              {
+                borderBottomLeftRadius: showBlikCode ? 0 : moderateScale(5),
+                borderBottomRightRadius: showBlikCode ? 0 : moderateScale(5),
+              },
+            ]}>
+            <View style={styles.blikLeftContainer}>
+              <Image
+                style={styles.blik}
+                resizeMode="contain"
+                source={require('../../../assets/images/Blik.jpg')}
+              />
+              <Text style={styles.blikTag}>BLIK code</Text>
+            </View>
+            <TouchableOpacity
+              activeOpacity={1}
+              onPress={() => {
+                if (showBlikCode === true) {
+                  rotateBack();
+                  setShowBlikCode(false);
+                  setSpinHomeIcon(true);
+                } else if (showBlikCode === false) {
+                  rotate();
+                  setShowBlikCode(true);
+                  setSpinHomeIcon(true);
+                }
+              }}
+              style={styles.blikRightContainer}>
+              <Animated.View
+                style={
+                  spinHomeIcon
+                    ? {
+                        transform: [
+                          {
+                            rotate: spin,
+                          },
+                        ],
+                      }
+                    : {}
+                }>
+                <AntDesign
+                  name="down"
+                  color={'#043570'}
+                  size={moderateScale(16)}
+                  style={{
+                    marginLeft: moderateScale(5),
+                  }}
+                />
+              </Animated.View>
+            </TouchableOpacity>
+          </View>
+          {showBlikCode && (
+            <View style={[styles.blikExtended]}>
+              <Text style={styles.blikCode}>123 456</Text>
               <View
                 style={{
-                  height: '100%',
-                  width: '70%',
-                  backgroundColor: '#043570',
-                }}
-              />
+                  width: '80%',
+                  height: moderateScale(7),
+                  backgroundColor: 'lightgrey',
+                  borderRadius: 100,
+                  marginTop: moderateScale(10),
+                  overflow: 'hidden',
+                }}>
+                <View
+                  style={{
+                    height: '100%',
+                    width: '70%',
+                    backgroundColor: '#043570',
+                  }}
+                />
+              </View>
             </View>
-          </View>
-        )}
-        <FlatList data={accounts} renderItem={flatlistRenderItem} />
-      </ScrollView>
+          )}
+          <FlatList data={accounts} renderItem={flatlistRenderItem} />
+        </ScrollView>
+      )}
     </SafeAreaView>
   );
 };

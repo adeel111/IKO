@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useRef, useState, useEffect} from 'react';
 import {
   TouchableOpacity,
   Image,
@@ -8,6 +8,8 @@ import {
   Dimensions,
   View,
   ScrollView,
+  Animated,
+  Easing,
 } from 'react-native';
 import Theme from '../../Theme/Theme';
 import SafeAreaView from 'react-native-safe-area-view';
@@ -17,6 +19,7 @@ import EvilIcons from 'react-native-vector-icons/EvilIcons';
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
 import AppHeader from '../../components/AppHeader';
 import AppStatusBar from '../../components/AppStatusBar';
+import IndividualProfile from '../../components/IndividualProfile';
 
 const {width, height} = Dimensions.get('window');
 
@@ -80,6 +83,39 @@ const data = [
 ];
 
 const More = ({navigation}) => {
+  const fadeAnim = useRef(new Animated.Value(0)).current;
+  const [showProfile, setShowProfile] = useState(false);
+
+  useEffect(() => {
+    if (showProfile) {
+      navigation.getParent()?.setOptions({tabBarStyle: {display: 'none'}});
+      return () => navigation.getParent()?.setOptions({tabBarStyle: undefined});
+    }
+  }, [showProfile]);
+
+  const rotate = () => {
+    Animated.timing(fadeAnim, {
+      toValue: 1,
+      duration: 300,
+      easing: Easing.linear,
+      useNativeDriver: true,
+    }).start();
+  };
+
+  const rotateBack = () => {
+    Animated.timing(fadeAnim, {
+      toValue: 0,
+      duration: 300,
+      easing: Easing.linear,
+      useNativeDriver: true,
+    }).start();
+  };
+
+  const spin = fadeAnim.interpolate({
+    inputRange: [0, 1],
+    outputRange: ['0deg', '180deg'],
+  });
+
   const renderItem = ({item, index}) => {
     return (
       <View>
@@ -132,76 +168,92 @@ const More = ({navigation}) => {
   return (
     <SafeAreaView style={styles.mainContainer} forceInset={{top: 'never'}}>
       <AppStatusBar />
-      <AppHeader title={'See more'} />
-      <ScrollView style={styles.mainContainer}>
-        <FlatList
-          data={data}
-          renderItem={renderItem}
-          keyExtractor={(item, index) => item + index}
-        />
-        <TouchableOpacity activeOpacity={1} style={styles.bottomButton}>
-          <EvilIcons
-            name="gear"
-            color="#043570"
-            size={moderateScale(22)}
-            style={{
-              marginRight: moderateScale(10),
-            }}
+      <AppHeader
+        title="See more"
+        leftIconClick={() => {
+          if (showProfile) {
+            rotateBack();
+            setShowProfile(false);
+          } else {
+            rotate();
+            setShowProfile(true);
+          }
+        }}
+        spinTheIcon={spin}
+      />
+      {showProfile ? (
+        <IndividualProfile />
+      ) : (
+        <ScrollView style={styles.mainContainer}>
+          <FlatList
+            data={data}
+            renderItem={renderItem}
+            keyExtractor={(item, index) => item + index}
           />
-          <Text style={styles.bottomButtonTag}>Settings</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          activeOpacity={1}
-          style={[
-            styles.bottomButton,
-            {
-              backgroundColor: '#043570',
-              borderTopRightRadius: 0,
-              borderBottomLeftRadius: 0,
-              borderWidth: 0,
-            },
-          ]}>
-          <SimpleLineIcons
-            name="logout"
-            color="white"
-            size={moderateScale(22)}
-            style={{
-              marginRight: moderateScale(10),
-            }}
-          />
-          <Text
+          <TouchableOpacity activeOpacity={1} style={styles.bottomButton}>
+            <EvilIcons
+              name="gear"
+              color="#043570"
+              size={moderateScale(22)}
+              style={{
+                marginRight: moderateScale(10),
+              }}
+            />
+            <Text style={styles.bottomButtonTag}>Settings</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            activeOpacity={1}
             style={[
-              styles.bottomButtonTag,
+              styles.bottomButton,
               {
-                color: 'white',
+                backgroundColor: '#043570',
+                borderTopRightRadius: 0,
+                borderBottomLeftRadius: 0,
+                borderWidth: 0,
               },
             ]}>
-            Log out
-          </Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          activeOpacity={1}
-          style={[
-            styles.bottomButton,
-            {
-              backgroundColor: '#E4202C',
-              borderTopRightRadius: 0,
-              borderBottomLeftRadius: 0,
-              marginBottom: moderateScale(30),
-              borderWidth: 0,
-            },
-          ]}>
-          <Text
+            <SimpleLineIcons
+              name="logout"
+              color="white"
+              size={moderateScale(22)}
+              style={{
+                marginRight: moderateScale(10),
+              }}
+            />
+            <Text
+              style={[
+                styles.bottomButtonTag,
+                {
+                  color: 'white',
+                },
+              ]}>
+              Log out
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            activeOpacity={1}
             style={[
-              styles.bottomButtonTag,
+              styles.bottomButton,
               {
-                color: 'white',
+                backgroundColor: '#E4202C',
+                borderTopRightRadius: 0,
+                borderBottomLeftRadius: 0,
+                marginBottom: moderateScale(30),
+                borderWidth: 0,
               },
             ]}>
-            Quit DEMO
-          </Text>
-        </TouchableOpacity>
-      </ScrollView>
+            <Text
+              style={[
+                styles.bottomButtonTag,
+                {
+                  color: 'white',
+                },
+              ]}>
+              Quit DEMO
+            </Text>
+          </TouchableOpacity>
+        </ScrollView>
+      )}
     </SafeAreaView>
   );
 };

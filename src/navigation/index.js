@@ -19,7 +19,7 @@ const MainNav = () => {
 
   return (
     <Stack.Navigator
-      initialRouteName="SplashScreen"
+      initialRouteName="BottomTab"
       screenOptions={{
         headerShown: false,
       }}>
