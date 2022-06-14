@@ -22,6 +22,7 @@ import Carousel, {Pagination} from 'react-native-snap-carousel';
 import {ScrollView} from 'react-native-gesture-handler';
 import AppHeader from '../../../components/AppHeader';
 import AppStatusBar from '../../../components/AppStatusBar';
+import Loading from '../../../components/Loading';
 import {
   Menu,
   MenuOptions,
@@ -33,26 +34,43 @@ import IndividualProfile from '../../../components/IndividualProfile';
 const {width, height} = Dimensions.get('window');
 
 const HomeScreen = ({navigation}) => {
+  const [isLoading, setIsLoading] = useState(false);
   const [menuOpened, setMenuOpened] = useState(false);
   const [showManual, setShowManual] = useState(false);
   const [accounts, setAccounts] = useState([
     {
       id: 1,
+      name: 'Credit Cards',
+      desc: 'Available credit limit',
+      price: '5 000,00',
     },
     {
       id: 2,
+      name: 'Desposits',
+      desc: 'Available funds',
+      price: '12 000,00',
     },
     {
       id: 3,
+      name: 'Loans',
+      desc: 'Repayment amount',
+      price: '195 000,00',
     },
     {
       id: 4,
+      name: 'Investment funds',
+      desc: 'value',
+      price: '94 579,97',
     },
     {
       id: 5,
+      name: 'Pension schemes PPK and PPE',
+      desc: 'value',
+      price: '24 579,97',
     },
   ]);
 
+  const [data, setData] = useState([]);
   const [activeDot, setActiveDot] = useState(0);
   const [spinHomeIcon, setSpinHomeIcon] = useState(false);
   const [showProfile, setShowProfile] = useState(false);
@@ -72,6 +90,31 @@ const HomeScreen = ({navigation}) => {
       setShowManual(true);
     }, 500);
   }, []);
+
+  useEffect(() => {
+    setIsLoading(true);
+    setTimeout(() => {
+      getData();
+    }, 500);
+  }, []);
+
+  const getData = () => {
+    var axios = require('axios');
+    var config = {
+      method: 'get',
+      url: 'http://workingsoftwarecopy.xyz/api/info',
+      headers: {},
+    };
+    axios(config)
+      .then(function (response) {
+        setData(response?.data?.data);
+        setIsLoading(false);
+      })
+      .catch(function (error) {
+        setIsLoading(false);
+        console.log(error.response);
+      });
+  };
 
   const rotate = () => {
     Animated.timing(fadeAnim, {
@@ -96,7 +139,7 @@ const HomeScreen = ({navigation}) => {
     outputRange: ['0deg', '180deg'],
   });
 
-  const flatlistRenderItem = ({item, index}) => {
+  const RenderItem = ({item, amount}) => {
     return (
       <TouchableOpacity
         activeOpacity={0.7}
@@ -108,7 +151,7 @@ const HomeScreen = ({navigation}) => {
             alignItems: 'center',
             justifyContent: 'space-between',
           }}>
-          <Text style={styles.flatlistCardTag}>Credit Card</Text>
+          <Text style={styles.flatlistCardTag}>{item?.name}</Text>
           <MaterialCommunityIcons
             name="dots-vertical"
             size={moderateScale(22)}
@@ -118,9 +161,10 @@ const HomeScreen = ({navigation}) => {
             }}
           />
         </View>
-        <Text style={styles.availableFunds}>Available funds</Text>
+        <Text style={styles.availableFunds}>{item?.desc}</Text>
         <Text style={styles.funds}>
-          5700,00 <Text style={styles.currency}>PLN</Text>
+          {amount || '0 PLN'}
+          {/* <Text style={styles.currency}>PLN</Text> */}
         </Text>
         {/* <Menu
           onBackdropPress={() => setMenuOpened(false)}
@@ -170,7 +214,8 @@ const HomeScreen = ({navigation}) => {
         </View>
         <Text style={styles.availableFunds}>Available funds</Text>
         <Text style={styles.funds}>
-          5700,00 <Text style={styles.currency}>PLN</Text>
+          {data?.balance}
+          {/* <Text style={styles.currency}>PLN</Text> */}
         </Text>
         <View style={styles.swiperButtonWrapper}>
           <TouchableOpacity
@@ -216,6 +261,7 @@ const HomeScreen = ({navigation}) => {
   return (
     <SafeAreaView style={styles.mainContainer} forceInset={{top: 'never'}}>
       <AppStatusBar />
+      <Loading visible={isLoading} />
       <AppHeader
         title=""
         leftIconClick={() => {
@@ -411,7 +457,38 @@ const HomeScreen = ({navigation}) => {
               </View>
             </View>
           )}
-          <FlatList data={accounts} renderItem={flatlistRenderItem} />
+          <RenderItem
+            tab={1}
+            item={accounts[0]}
+            amount={data && data.accounts}
+          />
+          <RenderItem
+            tab={2}
+            item={accounts[1]}
+            amount={data && data.deposites}
+          />
+          <RenderItem tab={3} item={accounts[2]} amount={data && data.loans} />
+          <RenderItem
+            tab={4}
+            item={accounts[3]}
+            amount={data && data.investment_funds}
+          />
+          <RenderItem
+            tab={5}
+            item={accounts[4]}
+            amount={data && data.Pension_scheme_ppk}
+          />
+          {/* <FlatList
+            data={[
+              data?.credit_cards,
+              data?.deposites,
+              data?.loans,
+              data?.investment_funds,
+              data?.Pension_scheme_ppk,
+            ]}
+            extraData={data}
+            renderItem={flatlistRenderItem}
+          /> */}
         </ScrollView>
       )}
     </SafeAreaView>
@@ -484,7 +561,7 @@ const styles = StyleSheet.create({
     color: 'black',
     textAlign: 'right',
     fontFamily: Theme.fontFamily.medium,
-    fontSize: moderateScale(24),
+    fontSize: moderateScale(18),
   },
   currency: {
     fontSize: moderateScale(14),

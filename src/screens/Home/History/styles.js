@@ -61,7 +61,7 @@ const styles = StyleSheet.create({
     return {
       fontSize: moderateScale(13),
       fontFamily: Theme.fontFamily.regular,
-      color: character === '-' ? 'red' : 'black',
+      color: character ? 'red' : 'black',
     };
   },
   descTxtStyle: {

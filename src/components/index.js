@@ -4,6 +4,7 @@ import AppBackHeader from './AppBackHeader';
 import IndividualProfile from './IndividualProfile';
 import AppButton from './AppButton';
 import AppInput from './AppInput';
+import Loading from './Loading';
 
 export const appComponents = {
   AppHeader,
@@ -12,4 +13,5 @@ export const appComponents = {
   IndividualProfile,
   AppButton,
   AppInput,
+  Loading,
 };
