@@ -139,12 +139,13 @@ const HomeScreen = ({navigation}) => {
     outputRange: ['0deg', '180deg'],
   });
 
-  const RenderItem = ({item, amount}) => {
+  const RenderItem = ({item, amount, selectedTab}) => {
     return (
       <TouchableOpacity
         activeOpacity={0.7}
         style={styles.bottomFlatlistCard}
-        onPress={() => navigation.navigate('My Products', {tab: 1})}>
+        // onPress={() => navigation.navigate('My Products', {tab: selectedTab})}
+        >
         <View
           style={{
             flexDirection: 'row',
@@ -458,23 +459,27 @@ const HomeScreen = ({navigation}) => {
             </View>
           )}
           <RenderItem
-            tab={1}
+            selectedTab={1}
             item={accounts[0]}
             amount={data && data.accounts}
           />
           <RenderItem
-            tab={2}
+            selectedTab={2}
             item={accounts[1]}
             amount={data && data.deposites}
           />
-          <RenderItem tab={3} item={accounts[2]} amount={data && data.loans} />
           <RenderItem
-            tab={4}
+            selectedTab={3}
+            item={accounts[2]}
+            amount={data && data.loans}
+          />
+          <RenderItem
+            selectedTab={4}
             item={accounts[3]}
             amount={data && data.investment_funds}
           />
           <RenderItem
-            tab={5}
+            selectedTab={5}
             item={accounts[4]}
             amount={data && data.Pension_scheme_ppk}
           />
