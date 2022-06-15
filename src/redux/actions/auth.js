@@ -20,6 +20,13 @@ export const callapi = data => {
   };
 };
 
+export const handleShowDemoCard = data => {
+  return {
+    type: types.DEMO_CARD,
+    payload: data,
+  };
+};
+
 export const stopapi = () => {
   return {
     type: types.STOP_API,

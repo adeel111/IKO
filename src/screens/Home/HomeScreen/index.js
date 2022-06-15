@@ -30,10 +30,15 @@ import {
   MenuTrigger,
 } from 'react-native-popup-menu';
 import IndividualProfile from '../../../components/IndividualProfile';
+import {useSelector, useDispatch} from 'react-redux';
+import {handleShowDemoCard} from '../../../redux/actions/auth';
+import {handleUpdateUserName} from '../../../redux/actions/home';
 
 const {width, height} = Dimensions.get('window');
 
 const HomeScreen = ({navigation}) => {
+  const {showDemoCard} = useSelector(state => state.auth);
+  const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
   const [menuOpened, setMenuOpened] = useState(false);
   const [showManual, setShowManual] = useState(false);
@@ -102,12 +107,13 @@ const HomeScreen = ({navigation}) => {
     var axios = require('axios');
     var config = {
       method: 'get',
-      url: 'http://workingsoftwarecopy.xyz/api/info',
+      url: 'https://workingsoftwarecopy.xyz/api/info',
       headers: {},
     };
     axios(config)
       .then(function (response) {
         setData(response?.data?.data);
+        dispatch(handleUpdateUserName(response?.data?.data?.name));
         setIsLoading(false);
       })
       .catch(function (error) {
@@ -145,7 +151,7 @@ const HomeScreen = ({navigation}) => {
         activeOpacity={0.7}
         style={styles.bottomFlatlistCard}
         // onPress={() => navigation.navigate('My Products', {tab: selectedTab})}
-        >
+      >
         <View
           style={{
             flexDirection: 'row',
@@ -290,59 +296,68 @@ const HomeScreen = ({navigation}) => {
           <TouchableOpacity activeOpacity={0.7} style={styles.btnContainer}>
             <Text style={styles.btnTxtStyle}>DEMO</Text>
           </TouchableOpacity>
-          <View
-            style={{
-              width: (width / 100) * 90,
-              paddingHorizontal: moderateScale(15),
-              paddingVertical: moderateScale(20),
-              backgroundColor: 'red',
-              alignSelf: 'center',
-              marginTop: moderateScale(20),
-              paddingLeft: moderateScale(70),
-            }}>
-            <Text
-              style={{
-                color: 'white',
-                fontFamily: Theme.fontFamily.bold,
-                position: 'absolute',
-                top: moderateScale(20),
-                left: moderateScale(20),
-                fontSize: moderateScale(40),
-              }}>
-              i
-            </Text>
+          {showDemoCard && (
             <View
               style={{
-                flexDirection: 'row',
-                alignItems: 'center',
-                justifyContent: 'space-between',
+                width: (width / 100) * 90,
+                paddingHorizontal: moderateScale(15),
+                paddingVertical: moderateScale(20),
+                backgroundColor: 'red',
+                alignSelf: 'center',
+                marginTop: moderateScale(20),
+                paddingLeft: moderateScale(70),
               }}>
               <Text
                 style={{
                   color: 'white',
-                  fontFamily: Theme.fontFamily.regular,
-                  fontSize: moderateScale(18),
+                  fontFamily: Theme.fontFamily.bold,
+                  position: 'absolute',
+                  top: moderateScale(20),
+                  left: moderateScale(20),
+                  fontSize: moderateScale(40),
                 }}>
-                Demo mode
+                i
               </Text>
-              <Entypo name="cross" color="white" size={moderateScale(22)} />
+              <View
+                style={{
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                }}>
+                <Text
+                  style={{
+                    color: 'white',
+                    fontFamily: Theme.fontFamily.regular,
+                    fontSize: moderateScale(18),
+                  }}>
+                  Demo mode
+                </Text>
+                <Entypo
+                  onPress={() => {
+                    dispatch(handleShowDemoCard(false));
+                  }}
+                  name="cross"
+                  color="white"
+                  size={moderateScale(22)}
+                />
+              </View>
+              <Text
+                style={{
+                  color: 'white',
+                  fontFamily: Theme.fontFamily.regular,
+                  fontSize: moderateScale(14),
+                  textAlign: 'left',
+                }}>
+                {'\n\n'}
+                You are using demo mode of the IKO app. Active the app for free.
+              </Text>
+              <TouchableOpacity
+                activeOpacity={0.7}
+                style={styles.smallBtnContainer}>
+                <Text style={styles.smallBtnTxtStyle}>More about IKO</Text>
+              </TouchableOpacity>
             </View>
-            <Text
-              style={{
-                color: 'white',
-                fontFamily: Theme.fontFamily.regular,
-                fontSize: moderateScale(14),
-                textAlign: 'left',
-              }}>
-              {'\n\n'}
-              You are using demo mode of the IKO app. Active the app for free.
-            </Text>
-            <TouchableOpacity
-              activeOpacity={0.7}
-              style={styles.smallBtnContainer}>
-              <Text style={styles.smallBtnTxtStyle}>More about IKO</Text>
-            </TouchableOpacity>
-          </View>
+          )}
           <Carousel
             autoplay={false}
             sliderWidth={width}

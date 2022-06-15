@@ -58,6 +58,7 @@ const DemoScreen = ({navigation}) => {
     if (pin.length === 4) {
       if (opened === '') bottomSheet.current.close();
       else if (opened === 'login') {
+        setPin('');
         loginINBottomSheet.current.close();
         setTimeout(() => {
           navigation.navigate('BottomTab');

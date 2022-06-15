@@ -1,8 +1,9 @@
 // Auth Types
 export const SAVE_QUICK_ACCESS = 'SAVE_QUICK_ACCESS';
 export const RESET_QUICK_ACCESS = 'RESET_QUICK_ACCESS';
+export const DEMO_CARD = 'DEMO_CARD';
 //Home Types
-export const ACTIVE_SCREEN = 'ACTIVE_SCREEN';
+export const SAVE_USERNAME = 'SAVE_USERNAME';
 export const SAVE_TOKEN = 'SAVE_TOKEN';
 
 //call API

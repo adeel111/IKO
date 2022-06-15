@@ -13,6 +13,7 @@ import Fontisto from 'react-native-vector-icons/Fontisto';
 import {moderateScale} from '../Theme/Dimensions';
 import {useNavigation} from '@react-navigation/native';
 import Theme from '../Theme/Theme';
+import {useSelector} from 'react-redux';
 
 const {width} = Dimensions.get('window');
 
@@ -25,6 +26,9 @@ const AppHeader = ({
   onPress,
 }) => {
   const navigation = useNavigation();
+  const {userName} = useSelector(state => state.home);
+
+  let showName = userName.split(' ');
 
   return (
     <View style={styles.header}>
@@ -33,7 +37,11 @@ const AppHeader = ({
         onPress={() => leftIconClick()}
         style={styles.headerLeftContainer}>
         <View style={styles.txtContainer}>
-          <Text style={styles.userName}>JI</Text>
+          <Text style={styles.userName}>
+            {userName === 'JI'
+              ? userName
+              : `${showName[0]?.[0]}${showName[showName.length - 1]?.[0]}`}
+          </Text>
         </View>
         <Animated.View
           style={

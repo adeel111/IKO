@@ -11,9 +11,11 @@ const AppButton = ({
   bgColor = '#043570',
   textSize = 15,
   textColor = 'white',
+  onPress,
 }) => {
   return (
     <TouchableOpacity
+      onPress={onPress}
       activeOpacity={0.7}
       style={styles.buttonContainer(bgColor, width)}>
       {icon === 'settings' ? (

@@ -1,15 +1,15 @@
 import * as types from '../actions/types';
 
 const initialState = {
-  screenFocused: 'HomeStack',
+  userName: 'JI',
 };
 
 export const homeReducer = (state = initialState, action) => {
   switch (action.type) {
-    case types.ACTIVE_SCREEN: {
+    case types.SAVE_USERNAME: {
       return {
         ...state,
-        screenFocused: action.payload,
+        userName: action.payload,
       };
     }
     default:

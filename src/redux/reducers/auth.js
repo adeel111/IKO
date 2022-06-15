@@ -80,6 +80,7 @@ const initialState = {
     },
   ],
   call: '',
+  showDemoCard: true,
 };
 
 export const authReducer = (state = initialState, action) => {
@@ -93,6 +94,11 @@ export const authReducer = (state = initialState, action) => {
       return {
         ...state,
         call: '',
+      };
+    case types.DEMO_CARD:
+      return {
+        ...state,
+        showDemoCard: action.payload,
       };
     case types.SAVE_QUICK_ACCESS:
       return {

@@ -12,10 +12,19 @@ import {moderateScale} from '../Theme/Dimensions';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import AppButton from './AppButton';
 import * as Animatable from 'react-native-animatable';
+import {useDispatch, useSelector} from 'react-redux';
+import {handleShowDemoCard} from '../redux/actions/auth';
+import {useNavigation} from '@react-navigation/native';
 
 const {width} = Dimensions.get('window');
 
 const IndividualProfile = () => {
+  const navigation = useNavigation();
+  const dispatch = useDispatch();
+  const {userName} = useSelector(state => state.home);
+
+  let showName = userName.split(' ');
+
   return (
     <View style={styles.mainContainer}>
       <View style={styles.headerTextView}>
@@ -29,10 +38,16 @@ const IndividualProfile = () => {
         <View style={styles.innerView}>
           <View style={styles.rowContainer}>
             <View style={styles.txtContainer}>
-              <Text style={styles.userName}>JI</Text>
+              <Text style={styles.userName}>
+                {userName === 'JI'
+                  ? userName
+                  : `${showName[0]?.[0]}${showName[showName.length - 1]?.[0]}`}
+              </Text>
             </View>
             <View style={{flex: 1, marginLeft: 20}}>
-              <Text style={styles.nameTxtStyle}>Jan Iko</Text>
+              <Text style={styles.nameTxtStyle}>
+                {userName === 'JI' ? 'Jen IKO' : userName}
+              </Text>
               <Text style={styles.ownerTxtStyle}>Owner</Text>
               <AntDesign
                 name="check"
@@ -74,8 +89,24 @@ const IndividualProfile = () => {
           bgColor="white"
           textColor={'black'}
         />
-        <AppButton icon="logout" lable="Log out" bgColor="#043570" />
-        <AppButton lable="Quit DEMO" bgColor="red" textSize={18} />
+        <AppButton
+          onPress={() => {
+            dispatch(handleShowDemoCard(true));
+            navigation.replace('DemoScreen');
+          }}
+          icon="logout"
+          lable="Log out"
+          bgColor="#043570"
+        />
+        <AppButton
+          lable="Quit DEMO"
+          bgColor="red"
+          textSize={18}
+          onPress={() => {
+            dispatch(handleShowDemoCard(true));
+            navigation.replace('AuthScreen');
+          }}
+        />
       </Animatable.View>
     </View>
   );
