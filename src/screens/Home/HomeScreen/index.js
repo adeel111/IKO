@@ -93,14 +93,14 @@ const HomeScreen = ({navigation}) => {
   useEffect(() => {
     setTimeout(() => {
       setShowManual(true);
-    }, 500);
+    }, 300);
   }, []);
 
   useEffect(() => {
     setIsLoading(true);
     setTimeout(() => {
       getData();
-    }, 500);
+    }, 300);
   }, []);
 
   const getData = () => {
@@ -210,7 +210,9 @@ const HomeScreen = ({navigation}) => {
       <TouchableOpacity
         activeOpacity={0.7}
         style={styles.swiperContainer}
-        onPress={() => navigation.navigate('AccountDetails')}
+        onPress={() =>
+          navigation.navigate('AccountDetails', {balance: data?.balance})
+        }
       >
         <View style={styles.swiperTopRow}>
           <View>

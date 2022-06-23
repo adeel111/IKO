@@ -8,59 +8,8 @@ import AppStatusBar from '../../../components/AppStatusBar';
 import Loading from '../../../components/Loading';
 import styles from './styles';
 
-const dataArr = [
-  {
-    title: '14.05.2015',
-    data: [
-      {
-        title: 'PREZELEW PRZYCHODZACY NA NR TEL.',
-        price: '10,00 PLN',
-      },
-      {
-        title: 'PREZELEW PRZYCHODZACY NA',
-        price: '100,00 PLN',
-      },
-      {
-        title: 'PREZELEW PRZYCHODZACY NA NR TEL',
-        price: '-245,00 PLN',
-      },
-    ],
-  },
-  {
-    title: '26.11.2014',
-    data: [
-      {
-        title: 'PREZELEW PRZYCHODZACY',
-        price: '-10,00 PLN',
-      },
-      {
-        title: 'PREZELEW PRZYCHODZACY NA NR TEL.',
-        price: '-100,01 PLN',
-      },
-    ],
-  },
-  {
-    title: '25.11.2014',
-    data: [
-      {
-        title: 'PREZELEW PRZYCHODZACY NA NR TEL.',
-        price: '100,02 PLN',
-      },
-    ],
-  },
-  {
-    title: '24.11.2014',
-    data: [
-      {
-        title: 'PREZELEW PRZYCHODZACY NA NR TEL.',
-        price: '100,03 PLN',
-      },
-    ],
-  },
-];
-
 const History = ({navigation}) => {
-  const [data, setSetData] = useState(dataArr);
+  const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [selectedTab, setSelectedTab] = useState(true);
 
@@ -73,7 +22,7 @@ const History = ({navigation}) => {
     setIsLoading(true);
     setTimeout(() => {
       getData();
-    }, 500);
+    }, 300);
   }, []);
 
   const getData = () => {
@@ -85,7 +34,7 @@ const History = ({navigation}) => {
     };
     axios(config)
       .then(function (response) {
-        setSetData(response.data.data);
+        setData(response.data.data);
         setIsLoading(false);
         console.log(JSON.stringify(response.data.data));
       })
@@ -101,9 +50,7 @@ const History = ({navigation}) => {
         <Text style={styles.titleTxtStyle}>{item.title}</Text>
         <View style={styles.rowContainer}>
           <Text style={styles.descTxtStyle}>{item.method}</Text>
-          <Text style={styles.titleTxtStyle(item.id == 14)}>
-            {item.id == 14 ? '-' + item.amount + 'N' : item.amount + 'N'}
-          </Text>
+          <Text style={styles.titleTxtStyle}>{item.amount + 'N'}</Text>
         </View>
       </View>
     );

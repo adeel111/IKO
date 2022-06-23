@@ -1,62 +1,131 @@
 import React, {useState, useEffect} from 'react';
-import {View, Text, TouchableOpacity} from 'react-native';
+import {View, Text, ScrollView} from 'react-native';
 import SafeAreaView from 'react-native-safe-area-view';
 import AppBackHeader from '../../../components/AppBackHeader';
 import AppStatusBar from '../../../components/AppStatusBar';
+import Loading from '../../../components/Loading';
 import styles from './styles';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import {moderateScale} from '../../../Theme/Dimensions';
 
 const MyData = ({navigation}) => {
-  const [menuOpened, setMenuOpened] = useState(false);
+  const [data, setData] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     navigation.getParent()?.setOptions({tabBarStyle: {display: 'none'}});
     return () => navigation.getParent()?.setOptions({tabBarStyle: undefined});
   }, []);
 
-  const RenderDetails = () => {
+  useEffect(() => {
+    setIsLoading(true);
+    setTimeout(() => {
+      getData();
+    }, 300);
+  }, []);
+
+  const getData = () => {
+    var axios = require('axios');
+    var config = {
+      method: 'get',
+      url: 'http://workingsoftwarecopy.xyz/api/personal-detail',
+      headers: {},
+    };
+    axios(config)
+      .then(function (response) {
+        setData(response?.data?.data);
+        setIsLoading(false);
+      })
+      .catch(function (error) {
+        setIsLoading(false);
+        console.log(error);
+      });
+  };
+
+  const RenderRow = ({title, value, isArrow = true}) => {
     return (
-      <View>
-        <View style={{padding: 20}}>
-          <Text style={styles.headTxtStyle}>TRANSAKCJA</Text>
-          <Text style={styles.valueTxtStyle}>
-            PERZELEW PRZYCHODZACY NA NR TEL.
-          </Text>
-          <Text style={styles.headTxtStyle}>Opis</Text>
-          <Text style={styles.valueTxtStyle}>ZWROT ZA OBIAD</Text>
-          <Text style={styles.headTxtStyle}>Nazwa nadawcy</Text>
-          <Text style={styles.valueTxtStyle}>JACK IKO</Text>
-          <Text style={styles.headTxtStyle}>Nr rachunku przeciwstawnego</Text>
-          <Text style={styles.valueTxtStyle}>
-            74 1020 5561 0000 3902 0294 1482
-          </Text>
-          <Text style={styles.headTxtStyle}>Od</Text>
-          <Text style={styles.valueTxtStyle}>48501500500</Text>
-          <Text style={styles.headTxtStyle}>Do</Text>
-          <Text style={styles.valueTxtStyle}>601500500</Text>
-          <Text style={styles.headTxtStyle}>Adres nadawcy</Text>
-          <Text style={styles.valueTxtStyle}>02-515 WARSZAWA</Text>
-          <Text style={styles.headTxtStyle}>SALDO PO OPERACJI</Text>
-          <Text style={styles.valueTxtStyle}>3 310,67 PLN</Text>
-          <Text style={styles.headTxtStyle}>TYP TRANSAKCJI</Text>
-          <Text style={styles.valueTxtStyle}>Przelewy zewnetrzne</Text>
-          <Text style={styles.headTxtStyle}>DARA VALUTY</Text>
-          <Text style={styles.valueTxtStyle}>14.02.2015</Text>
-          <Text style={styles.headTxtStyle}>Numer referencyjny</Text>
-          <Text style={styles.valueTxtStyle}>137153333233</Text>
+      <>
+        <View style={styles.rowContainer}>
+          <View>
+            <Text style={styles.titleTxtStyle}>{title}</Text>
+            <Text style={styles.valTxtStyle}>{value}</Text>
+          </View>
+          {isArrow && (
+            <MaterialIcons
+              name="arrow-forward-ios"
+              color="black"
+              size={moderateScale(20)}
+            />
+          )}
         </View>
-      </View>
+        <View style={styles.lineView} />
+      </>
     );
   };
+
   return (
     <SafeAreaView style={styles.mainContainer} forceInset={{top: 'never'}}>
       <AppStatusBar />
+      <Loading visible={isLoading} />
       <AppBackHeader
         title={'My data'}
         isBackIcon
         isMenu={false}
         onPress={() => setMenuOpened(true)}
       />
+      <ScrollView
+        style={{marginBottom: 30}}
+        showsVerticalScrollIndicator={false}
+      >
+        <View style={styles.missingDataView}>
+          <Text style={styles.missingTxtStyle}>Complete missing data</Text>
+          <Text style={styles.descTxtStyle}>
+            This is the only way to use all of the bank's possibilities, and we
+            will take care of the safety of your finances.
+          </Text>
+        </View>
+        <View style={styles.headerTextView}>
+          <Text style={styles.secitonListHeader}>Personal Data</Text>
+        </View>
+        <View style={styles.viewContainer}>
+          <View style={styles.lineView} />
+          <RenderRow
+            title={'First name and surname'}
+            value={data?.name}
+            isArrow={false}
+          />
+          <RenderRow title={'PESEL No.'} value={data?.pesel_no} />
+          <RenderRow title={'ID card'} value={data?.id_card} />
+        </View>
+        <View style={styles.headerTextView}>
+          <Text style={styles.secitonListHeader}>Contact details</Text>
+        </View>
+        <View style={styles.viewContainer}>
+          <View style={styles.lineView} />
+          <RenderRow title={'Main telephone number'} value={data?.telephone} />
+          <RenderRow
+            title={'Mobile number for notifications'}
+            value={data?.mobile}
+          />
+          <RenderRow title={'E-mail address'} value={data?.email} />
+          <RenderRow title={'Correspondence address'} value={data?.address} />
+        </View>
+        <View style={styles.headerTextView}>
+          <Text style={styles.secitonListHeader}>Contact details</Text>
+        </View>
+        <View style={styles.viewContainer}>
+          <View style={styles.rowContainer}>
+            <View>
+              <Text style={styles.titleTxtStyle}>Marketing consents</Text>
+            </View>
+            <MaterialIcons
+              name="arrow-forward-ios"
+              color="black"
+              size={moderateScale(20)}
+            />
+          </View>
+        </View>
+      </ScrollView>
     </SafeAreaView>
   );
 };

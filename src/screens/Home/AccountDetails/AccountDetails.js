@@ -4,6 +4,7 @@ import SafeAreaView from 'react-native-safe-area-view';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scrollview';
 import AppBackHeader from '../../../components/AppBackHeader';
 import AppStatusBar from '../../../components/AppStatusBar';
+import Loading from '../../../components/Loading';
 import moment from 'moment';
 import {
   Menu,
@@ -13,59 +14,10 @@ import {
 } from 'react-native-popup-menu';
 import styles from './styles';
 
-const dataArr = [
-  {
-    title: '14.05.2015',
-    data: [
-      {
-        title: 'PREZELEW PRZYCHODZACY NA NR TEL.',
-        amount: '10,00 PLN',
-      },
-      {
-        title: 'PREZELEW PRZYCHODZACY NA',
-        amount: '100,00 PLN',
-      },
-      {
-        title: 'PREZELEW PRZYCHODZACY NA NR TEL',
-        amount: '-245,00 PLN',
-      },
-    ],
-  },
-  {
-    title: '26.11.2014',
-    data: [
-      {
-        title: 'PREZELEW PRZYCHODZACY',
-        amount: '-10,00 PLN',
-      },
-      {
-        title: 'PREZELEW PRZYCHODZACY NA NR TEL.',
-        amount: '-100,01 PLN',
-      },
-    ],
-  },
-  {
-    title: '25.11.2014',
-    data: [
-      {
-        title: 'PREZELEW PRZYCHODZACY NA NR TEL.',
-        amount: '100,02 PLN',
-      },
-    ],
-  },
-  {
-    title: '24.11.2014',
-    data: [
-      {
-        title: 'PREZELEW PRZYCHODZACY NA NR TEL.',
-        amount: '100,03 PLN',
-      },
-    ],
-  },
-];
-
-const AccountDetails = ({navigation}) => {
-  const [data, setData] = useState(dataArr);
+const AccountDetails = ({navigation, route}) => {
+  const [data, setData] = useState([]);
+  const [details, setDetails] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
   const [menuOpened, setMenuOpened] = useState(false);
   const [selectedTab, setSelectedTab] = useState(true);
 
@@ -73,6 +25,50 @@ const AccountDetails = ({navigation}) => {
     navigation.getParent()?.setOptions({tabBarStyle: {display: 'none'}});
     return () => navigation.getParent()?.setOptions({tabBarStyle: undefined});
   }, []);
+
+  useEffect(() => {
+    setIsLoading(true);
+    setTimeout(() => {
+      getData();
+      getDetails();
+    }, 300);
+  }, []);
+
+  const getData = () => {
+    var axios = require('axios');
+    var config = {
+      method: 'get',
+      url: 'https://workingsoftwarecopy.xyz/api/get-history',
+      headers: {},
+    };
+    axios(config)
+      .then(function (response) {
+        setData(response.data.data);
+        setIsLoading(false);
+        console.log(JSON.stringify(response.data.data));
+      })
+      .catch(function (error) {
+        setIsLoading(false);
+        console.log(error);
+      });
+  };
+
+  const getDetails = () => {
+    var axios = require('axios');
+    var config = {
+      method: 'get',
+      url: 'http://workingsoftwarecopy.xyz/api/histry-detail',
+      headers: {},
+    };
+    axios(config)
+      .then(function (response) {
+        setDetails(response?.data?.data);
+        console.log(JSON.stringify(response.data.data));
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  };
 
   const RenderChildItem = ({item}) => {
     return (
@@ -85,9 +81,8 @@ const AccountDetails = ({navigation}) => {
       >
         <Text style={styles.titleTxtStyle}>{item.title}</Text>
         <View style={styles.rowContainer}>
-          <Text style={styles.descTxtStyle}>PREZELEW MOBILNY</Text>
-          {/* <Text style={styles.descTxtStyle}>{item.method}</Text> */}
-          <Text style={styles.titleTxtStyle(item.id == 14)}>{item.amount}</Text>
+          <Text style={styles.descTxtStyle}>{item.method}</Text>
+          <Text style={styles.titleTxtStyle}>{item.amount}</Text>
         </View>
       </TouchableOpacity>
     );
@@ -102,8 +97,7 @@ const AccountDetails = ({navigation}) => {
         renderSectionHeader={({section: {title}}) => (
           <View style={styles.headerTextView}>
             <Text style={styles.secitonListHeader}>
-              {title}
-              {/* {moment(title).format('L')} */}
+              {moment(title).format('L')}
             </Text>
           </View>
         )}
@@ -117,25 +111,23 @@ const AccountDetails = ({navigation}) => {
       <View>
         <View style={{padding: 20}}>
           <Text style={styles.headTxtStyle}>NUMBER RACHUNKU</Text>
-          <Text style={styles.valueTxtStyle}>
-            62 1020 5561 0000 3202 0030 1895
-          </Text>
+          <Text style={styles.valueTxtStyle}>{details?.number}</Text>
           <Text style={styles.headTxtStyle}>NAZWA RACHUNKU</Text>
-          <Text style={styles.valueTxtStyle}>PKO KONTO BEZ GRANIC</Text>
+          <Text style={styles.valueTxtStyle}>{details?.nazwa}</Text>
           <Text style={styles.headTxtStyle}>SALDO DOSTEPNE</Text>
-          <Text style={styles.valueTxtStyle}>5 700,00 PLN</Text>
+          <Text style={styles.valueTxtStyle}>{details?.saldo_deste}</Text>
           <Text style={styles.headTxtStyle}>SALDO KSEIGOWE</Text>
-          <Text style={styles.valueTxtStyle}>1 500,70 PLN</Text>
+          <Text style={styles.valueTxtStyle}>{details?.saldo_k}</Text>
           <Text style={styles.headTxtStyle}>OPROCENTOWANIE RACHUNKU</Text>
-          <Text style={styles.valueTxtStyle}>0,01 %</Text>
+          <Text style={styles.valueTxtStyle}>{details?.oprocent}</Text>
           <Text style={styles.headTxtStyle}>DATA OTWARCIA</Text>
-          <Text style={styles.valueTxtStyle}>21.08.2013</Text>
+          <Text style={styles.valueTxtStyle}>{details?.data_ot}</Text>
           <View style={styles.rowContainer}>
             <Text style={styles.headTxtStyle}>AUTOMATYCZNE OSZCZEDZANIE</Text>
             <Text style={styles.numberTxtStyle1}>Change</Text>
           </View>
           <Text style={[styles.valueTxtStyle, {marginBottom: 0}]}>
-            Wlaczone
+            {details?.automaty}
           </Text>
         </View>
         <View style={[styles.headerTextView, {backgroundColor: 'lightgray'}]}>
@@ -153,9 +145,11 @@ const AccountDetails = ({navigation}) => {
       </View>
     );
   };
+
   return (
     <SafeAreaView style={styles.mainContainer} forceInset={{top: 'never'}}>
       <AppStatusBar />
+      <Loading visible={isLoading} />
       <AppBackHeader
         title={'Account details'}
         isBackIcon
@@ -215,7 +209,7 @@ const AccountDetails = ({navigation}) => {
             <Text style={styles.numberTxtStyle1}> Copy the number</Text>
           </Text>
           <Text style={styles.availableFunds}>Available funds</Text>
-          <Text style={styles.funds}>5 700,00 PLN</Text>
+          <Text style={styles.funds}>{route?.params?.balance}</Text>
           <View style={styles.rowContainer1}>
             <TouchableOpacity
               activeOpacity={0.7}
@@ -225,7 +219,7 @@ const AccountDetails = ({navigation}) => {
               <Text style={styles.swiperButtonTag}>Transfer</Text>
             </TouchableOpacity>
             <View style={{width: '45%'}}>
-              <Text style={styles.balanceTxtStyle}>Blocked balance ></Text>
+              <Text style={styles.balanceTxtStyle}>{`Blocked balance >`}</Text>
               <Text style={styles.numberTxtStyle}>-305,10 PLN</Text>
             </View>
           </View>

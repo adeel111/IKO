@@ -157,12 +157,10 @@ const styles = StyleSheet.create({
     paddingHorizontal: (width / 100) * 5,
     backgroundColor: 'white',
   },
-  titleTxtStyle: character => {
-    return {
-      fontSize: moderateScale(13),
-      fontFamily: Theme.fontFamily.regular,
-      color: character ? 'red' : 'black',
-    };
+  titleTxtStyle: {
+    fontSize: moderateScale(13),
+    fontFamily: Theme.fontFamily.regular,
+    color: 'black',
   },
   descTxtStyle: {
     color: '#9E9E9E',

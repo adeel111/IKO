@@ -11,9 +11,11 @@ import {
   MenuTrigger,
 } from 'react-native-popup-menu';
 import styles from './styles';
-import {moderateScale} from '../../../Theme/Dimensions';
+import Loading from '../../../components/Loading';
 
-const OperationDetails = ({navigation}) => {
+const OperationDetails = ({navigation, route}) => {
+  const [details, setDetails] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
   const [menuOpened, setMenuOpened] = useState(false);
 
   useEffect(() => {
@@ -21,36 +23,58 @@ const OperationDetails = ({navigation}) => {
     return () => navigation.getParent()?.setOptions({tabBarStyle: undefined});
   }, []);
 
+  useEffect(() => {
+    setIsLoading(true);
+    setTimeout(() => {
+      getData();
+    }, 300);
+  }, []);
+
+  const getData = () => {
+    var axios = require('axios');
+    var config = {
+      method: 'get',
+      url: 'http://workingsoftwarecopy.xyz/api/operational-detail',
+      headers: {},
+    };
+    axios(config)
+      .then(function (response) {
+        setDetails(response?.data?.data);
+        setIsLoading(false);
+        console.log(JSON.stringify(response.data));
+      })
+      .catch(function (error) {
+        setIsLoading(false);
+        console.log(error);
+      });
+  };
+
   const RenderDetails = () => {
     return (
       <View>
         <View style={{padding: 20}}>
           <Text style={styles.headTxtStyle}>TRANSAKCJA</Text>
-          <Text style={styles.valueTxtStyle}>
-            PERZELEW PRZYCHODZACY NA NR TEL.
-          </Text>
+          <Text style={styles.valueTxtStyle}>{details?.trans}</Text>
           <Text style={styles.headTxtStyle}>Opis</Text>
-          <Text style={styles.valueTxtStyle}>ZWROT ZA OBIAD</Text>
+          <Text style={styles.valueTxtStyle}>{details?.opis}</Text>
           <Text style={styles.headTxtStyle}>Nazwa nadawcy</Text>
-          <Text style={styles.valueTxtStyle}>JACK IKO</Text>
+          <Text style={styles.valueTxtStyle}>{details?.nazwa}</Text>
           <Text style={styles.headTxtStyle}>Nr rachunku przeciwstawnego</Text>
-          <Text style={styles.valueTxtStyle}>
-            74 1020 5561 0000 3902 0294 1482
-          </Text>
+          <Text style={styles.valueTxtStyle}>{details?.nr_rachunku}</Text>
           <Text style={styles.headTxtStyle}>Od</Text>
-          <Text style={styles.valueTxtStyle}>48501500500</Text>
+          <Text style={styles.valueTxtStyle}>{details?.od}</Text>
           <Text style={styles.headTxtStyle}>Do</Text>
-          <Text style={styles.valueTxtStyle}>601500500</Text>
+          <Text style={styles.valueTxtStyle}>{details?.do}</Text>
           <Text style={styles.headTxtStyle}>Adres nadawcy</Text>
-          <Text style={styles.valueTxtStyle}>02-515 WARSZAWA</Text>
+          <Text style={styles.valueTxtStyle}>{details?.adres}</Text>
           <Text style={styles.headTxtStyle}>SALDO PO OPERACJI</Text>
-          <Text style={styles.valueTxtStyle}>3 310,67 PLN</Text>
+          <Text style={styles.valueTxtStyle}>{details?.saldo}</Text>
           <Text style={styles.headTxtStyle}>TYP TRANSAKCJI</Text>
-          <Text style={styles.valueTxtStyle}>Przelewy zewnetrzne</Text>
+          <Text style={styles.valueTxtStyle}>{details?.trans}</Text>
           <Text style={styles.headTxtStyle}>DARA VALUTY</Text>
-          <Text style={styles.valueTxtStyle}>14.02.2015</Text>
+          <Text style={styles.valueTxtStyle}>{details?.do}</Text>
           <Text style={styles.headTxtStyle}>Numer referencyjny</Text>
-          <Text style={styles.valueTxtStyle}>137153333233</Text>
+          <Text style={styles.valueTxtStyle}>{details?.do}</Text>
         </View>
       </View>
     );
@@ -58,6 +82,7 @@ const OperationDetails = ({navigation}) => {
   return (
     <SafeAreaView style={styles.mainContainer} forceInset={{top: 'never'}}>
       <AppStatusBar />
+      <Loading visible={isLoading} />
       <AppBackHeader
         title={'Operation details'}
         isBackIcon
@@ -82,14 +107,14 @@ const OperationDetails = ({navigation}) => {
 
       <View style={{paddingTop: 20, paddingLeft: 20, backgroundColor: 'white'}}>
         <Text style={styles.bankTxtStyle}>PKO KONTO BEZ GRANIC</Text>
-        <Text style={styles.numberTxtStyle}>62 (...) 0030 1895</Text>
+        <Text style={styles.numberTxtStyle}>{details?.pko}</Text>
       </View>
       <KeyboardAwareScrollView showsVerticalScrollIndicator={false}>
         <View style={{padding: 20, paddingTop: 0, backgroundColor: 'white'}}>
           <Text style={styles.availableFunds}>KWOTA</Text>
-          <Text style={styles.funds}>10,00 PLN</Text>
+          <Text style={styles.funds}>{details?.kwota}</Text>
           <Text style={styles.availableFunds}>DETA OPERACJI</Text>
-          <Text style={styles.numberTxtStyle}>14.02.2015</Text>
+          <Text style={styles.numberTxtStyle}>{details?.deta}</Text>
         </View>
         <RenderDetails />
       </KeyboardAwareScrollView>
