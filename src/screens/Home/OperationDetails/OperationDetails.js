@@ -72,9 +72,9 @@ const OperationDetails = ({navigation, route}) => {
           <Text style={styles.headTxtStyle}>TYP TRANSAKCJI</Text>
           <Text style={styles.valueTxtStyle}>{details?.trans}</Text>
           <Text style={styles.headTxtStyle}>DARA VALUTY</Text>
-          <Text style={styles.valueTxtStyle}>{details?.do}</Text>
+          <Text style={styles.valueTxtStyle}>{details?.dara}</Text>
           <Text style={styles.headTxtStyle}>Numer referencyjny</Text>
-          <Text style={styles.valueTxtStyle}>{details?.do}</Text>
+          <Text style={styles.valueTxtStyle}>{details?.numer}</Text>
         </View>
       </View>
     );

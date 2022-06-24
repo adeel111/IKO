@@ -496,27 +496,23 @@ const HomeScreen = ({navigation}) => {
           <RenderItem
             selectedTab={1}
             item={accounts[0]}
-            amount={data && data.accounts}
+            amount={data?.accounts}
           />
           <RenderItem
             selectedTab={2}
             item={accounts[1]}
-            amount={data && data.deposites}
+            amount={data?.deposites}
           />
-          <RenderItem
-            selectedTab={3}
-            item={accounts[2]}
-            amount={data && data.loans}
-          />
+          <RenderItem selectedTab={3} item={accounts[2]} amount={data?.loans} />
           <RenderItem
             selectedTab={4}
             item={accounts[3]}
-            amount={data && data.investment_funds}
+            amount={data?.investment_funds}
           />
           <RenderItem
             selectedTab={5}
             item={accounts[4]}
-            amount={data && data.Pension_scheme_ppk}
+            amount={data?.Pension_scheme_ppk}
           />
           {/* <FlatList
             data={[

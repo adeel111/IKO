@@ -23,7 +23,7 @@ const IndividualProfile = () => {
   const dispatch = useDispatch();
   const {userName} = useSelector(state => state.home);
 
-  let showName = userName.split(' ');
+  let showName = userName?.split(' ');
 
   return (
     <View style={styles.mainContainer}>
