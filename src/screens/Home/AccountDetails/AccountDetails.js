@@ -76,13 +76,13 @@ const AccountDetails = ({navigation, route}) => {
         activeOpacity={0.7}
         style={styles.childItemContainer}
         onPress={() => {
-          navigation.navigate('OperationDetails');
+          navigation.navigate('OperationDetails', {details: item?.details});
         }}
       >
         <Text style={styles.titleTxtStyle}>{item.title}</Text>
         <View style={styles.rowContainer}>
           <Text style={styles.descTxtStyle}>{item.method}</Text>
-          <Text style={styles.titleTxtStyle}>{item.amount}</Text>
+          <Text style={styles.titleTxtStyle}>{item.amount + 'N'}</Text>
         </View>
       </TouchableOpacity>
     );

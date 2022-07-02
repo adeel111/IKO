@@ -46,13 +46,19 @@ const History = ({navigation}) => {
 
   const RenderChildItem = ({item}) => {
     return (
-      <View style={styles.childItemContainer}>
+      <TouchableOpacity
+        activeOpacity={0.7}
+        style={styles.childItemContainer}
+        onPress={() => {
+          navigation.navigate('OperationDetails', {details: item?.details});
+        }}
+      >
         <Text style={styles.titleTxtStyle}>{item.title}</Text>
         <View style={styles.rowContainer}>
           <Text style={styles.descTxtStyle}>{item.method}</Text>
           <Text style={styles.titleTxtStyle}>{item.amount + 'N'}</Text>
         </View>
-      </View>
+      </TouchableOpacity>
     );
   };
 

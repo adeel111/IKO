@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useLayoutEffect} from 'react';
 import {View, Text, TouchableOpacity} from 'react-native';
 import SafeAreaView from 'react-native-safe-area-view';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scrollview';
@@ -11,11 +11,9 @@ import {
   MenuTrigger,
 } from 'react-native-popup-menu';
 import styles from './styles';
-import Loading from '../../../components/Loading';
 
 const OperationDetails = ({navigation, route}) => {
   const [details, setDetails] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
   const [menuOpened, setMenuOpened] = useState(false);
 
   useEffect(() => {
@@ -23,31 +21,9 @@ const OperationDetails = ({navigation, route}) => {
     return () => navigation.getParent()?.setOptions({tabBarStyle: undefined});
   }, []);
 
-  useEffect(() => {
-    setIsLoading(true);
-    setTimeout(() => {
-      getData();
-    }, 300);
-  }, []);
-
-  const getData = () => {
-    var axios = require('axios');
-    var config = {
-      method: 'get',
-      url: 'http://workingsoftwarecopy.xyz/api/operational-detail',
-      headers: {},
-    };
-    axios(config)
-      .then(function (response) {
-        setDetails(response?.data?.data);
-        setIsLoading(false);
-        console.log(JSON.stringify(response.data));
-      })
-      .catch(function (error) {
-        setIsLoading(false);
-        console.log(error);
-      });
-  };
+  useLayoutEffect(() => {
+    setDetails(route?.params?.details[0]);
+  }, [route]);
 
   const RenderDetails = () => {
     return (
@@ -82,7 +58,6 @@ const OperationDetails = ({navigation, route}) => {
   return (
     <SafeAreaView style={styles.mainContainer} forceInset={{top: 'never'}}>
       <AppStatusBar />
-      <Loading visible={isLoading} />
       <AppBackHeader
         title={'Operation details'}
         isBackIcon
@@ -104,27 +79,36 @@ const OperationDetails = ({navigation, route}) => {
           </MenuOptions>
         </Menu>
       </View>
-
-      <View style={{paddingTop: 20, paddingLeft: 20, backgroundColor: 'white'}}>
-        <Text style={styles.bankTxtStyle}>PKO KONTO BEZ GRANIC</Text>
-        <Text style={styles.numberTxtStyle}>{details?.pko}</Text>
-      </View>
-      <KeyboardAwareScrollView showsVerticalScrollIndicator={false}>
-        <View style={{padding: 20, paddingTop: 0, backgroundColor: 'white'}}>
-          <Text style={styles.availableFunds}>KWOTA</Text>
-          <Text style={styles.funds}>{details?.kwota}</Text>
-          <Text style={styles.availableFunds}>DETA OPERACJI</Text>
-          <Text style={styles.numberTxtStyle}>{details?.deta}</Text>
+      {details === undefined || details === null || details?.length === 0 ? (
+        <View style={styles.noDetailsView}>
+          <Text style={styles.noDetailsTxtStyle}>No details found</Text>
         </View>
-        <RenderDetails />
-      </KeyboardAwareScrollView>
-      <View style={{height: '14%', backgroundColor: 'white'}}>
-        <TouchableOpacity activeOpacity={0.7} style={styles.middleButton}>
-          <Text style={styles.middleButtonTag1}>
-            Return via mobile transfer
-          </Text>
-        </TouchableOpacity>
-      </View>
+      ) : (
+        <>
+          <View style={styles.detailsContainer}>
+            <Text style={styles.bankTxtStyle}>PKO KONTO BEZ GRANIC</Text>
+            <Text style={styles.numberTxtStyle}>{details?.pko}</Text>
+          </View>
+          <KeyboardAwareScrollView showsVerticalScrollIndicator={false}>
+            <View
+              style={{padding: 20, paddingTop: 0, backgroundColor: 'white'}}
+            >
+              <Text style={styles.availableFunds}>KWOTA</Text>
+              <Text style={styles.funds}>{details?.kwota}</Text>
+              <Text style={styles.availableFunds}>DETA OPERACJI</Text>
+              <Text style={styles.numberTxtStyle}>{details?.deta}</Text>
+            </View>
+            <RenderDetails />
+          </KeyboardAwareScrollView>
+          <View style={{height: '14%', backgroundColor: 'white'}}>
+            <TouchableOpacity activeOpacity={0.7} style={styles.middleButton}>
+              <Text style={styles.middleButtonTag1}>
+                Return via mobile transfer
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </>
+      )}
     </SafeAreaView>
   );
 };

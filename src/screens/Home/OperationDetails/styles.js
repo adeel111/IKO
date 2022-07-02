@@ -46,6 +46,21 @@ const styles = StyleSheet.create({
     paddingVertical: 5,
     alignSelf: 'center',
   },
+  noDetailsView: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  noDetailsTxtStyle: {
+    fontSize: 16,
+    color: '#E3545D',
+    fontFamily: Theme.fontFamily.bold,
+  },
+  detailsContainer: {
+    paddingTop: 20,
+    paddingLeft: 20,
+    backgroundColor: 'white',
+  },
   bankTxtStyle: {
     fontSize: 16,
     fontFamily: Theme.fontFamily.medium,
