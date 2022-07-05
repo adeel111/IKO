@@ -85,7 +85,7 @@ const History = ({navigation}) => {
         )}
         showsVerticalScrollIndicator={false}
       />
-      <View style={styles.tabsContainer}>
+      {/* <View style={styles.tabsContainer}>
         <TouchableOpacity
           activeOpacity={0.7}
           style={styles.tabContainer(selectedTab)}
@@ -100,7 +100,7 @@ const History = ({navigation}) => {
         >
           <Text style={styles.btntxtStyle}>Debits</Text>
         </TouchableOpacity>
-      </View>
+      </View> */}
     </SafeAreaView>
   );
 };

@@ -37,7 +37,7 @@ const AppBackHeader = ({
         )}
         <View style={{marginLeft: moderateScale(20)}}>
           <Text style={styles.headerTag}>{title}</Text>
-          <Text style={styles.demo}>DEMO</Text>
+          {/* <Text style={styles.demo}>DEMO</Text> */}
         </View>
       </View>
       {isMenu ? (

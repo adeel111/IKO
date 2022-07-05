@@ -303,10 +303,10 @@ const HomeScreen = ({navigation}) => {
           }}
           showsVerticalScrollIndicator={false}
         >
-          <TouchableOpacity activeOpacity={0.7} style={styles.btnContainer}>
+          {/* <TouchableOpacity activeOpacity={0.7} style={styles.btnContainer}>
             <Text style={styles.btnTxtStyle}>DEMO</Text>
-          </TouchableOpacity>
-          {showDemoCard && (
+          </TouchableOpacity> */}
+          {!showDemoCard && (
             <View
               style={{
                 width: (width / 100) * 90,
@@ -493,7 +493,7 @@ const HomeScreen = ({navigation}) => {
               </View>
             </View>
           )}
-          <RenderItem
+          {/* <RenderItem
             selectedTab={1}
             item={accounts[0]}
             amount={data?.accounts}
@@ -513,7 +513,7 @@ const HomeScreen = ({navigation}) => {
             selectedTab={5}
             item={accounts[4]}
             amount={data?.Pension_scheme_ppk}
-          />
+          /> */}
           {/* <FlatList
             data={[
               data?.credit_cards,

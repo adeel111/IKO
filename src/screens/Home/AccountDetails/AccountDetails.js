@@ -110,20 +110,22 @@ const AccountDetails = ({navigation, route}) => {
     return (
       <View>
         <View style={{padding: 20}}>
-          <Text style={styles.headTxtStyle}>NUMBER RACHUNKU</Text>
+          <Text style={styles.headTxtStyle}>ACCOUNT NUMBER</Text>
           <Text style={styles.valueTxtStyle}>{details?.number}</Text>
-          <Text style={styles.headTxtStyle}>NAZWA RACHUNKU</Text>
+          <Text style={styles.headTxtStyle}>ACCOUNT NAME</Text>
           <Text style={styles.valueTxtStyle}>{details?.nazwa}</Text>
-          <Text style={styles.headTxtStyle}>SALDO DOSTEPNE</Text>
+          <Text style={styles.headTxtStyle}>AVAILABLE BALANCE</Text>
           <Text style={styles.valueTxtStyle}>{details?.saldo_deste}</Text>
-          <Text style={styles.headTxtStyle}>SALDO KSEIGOWE</Text>
+          <Text style={styles.headTxtStyle}>ACCOUNTING BALANCE</Text>
           <Text style={styles.valueTxtStyle}>{details?.saldo_k}</Text>
-          <Text style={styles.headTxtStyle}>OPROCENTOWANIE RACHUNKU</Text>
+          {/* <Text style={styles.headTxtStyle}>BRANCH LEADING THE ACCOUNT</Text>
+          <Text style={styles.valueTxtStyle}>{details?.oprocent}</Text> */}
+          <Text style={styles.headTxtStyle}>INTEREST INCOME</Text>
           <Text style={styles.valueTxtStyle}>{details?.oprocent}</Text>
-          <Text style={styles.headTxtStyle}>DATA OTWARCIA</Text>
+          <Text style={styles.headTxtStyle}>OPENING DATE</Text>
           <Text style={styles.valueTxtStyle}>{details?.data_ot}</Text>
           <View style={styles.rowContainer}>
-            <Text style={styles.headTxtStyle}>AUTOMATYCZNE OSZCZEDZANIE</Text>
+            <Text style={styles.headTxtStyle}>AUTOSAVING</Text>
             <Text style={styles.numberTxtStyle1}>Change</Text>
           </View>
           <Text style={[styles.valueTxtStyle, {marginBottom: 0}]}>

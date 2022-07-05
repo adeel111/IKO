@@ -77,13 +77,13 @@ const MyData = ({navigation}) => {
         style={{marginBottom: 30}}
         showsVerticalScrollIndicator={false}
       >
-        <View style={styles.missingDataView}>
+        {/* <View style={styles.missingDataView}>
           <Text style={styles.missingTxtStyle}>Complete missing data</Text>
           <Text style={styles.descTxtStyle}>
             This is the only way to use all of the bank's possibilities, and we
             will take care of the safety of your finances.
           </Text>
-        </View>
+        </View> */}
         <View style={styles.headerTextView}>
           <Text style={styles.secitonListHeader}>Personal Data</Text>
         </View>
@@ -111,7 +111,7 @@ const MyData = ({navigation}) => {
           <RenderRow title={'Correspondence address'} value={data?.address} />
         </View>
         <View style={styles.headerTextView}>
-          <Text style={styles.secitonListHeader}>Contact details</Text>
+          <Text style={styles.secitonListHeader}>Declarations</Text>
         </View>
         <View style={styles.viewContainer}>
           <View style={styles.rowContainer}>
