@@ -25,9 +25,9 @@ const MainNav = () => {
       }}
     >
       <Stack.Screen name="SplashScreen" component={SplashScreen} />
-      <Stack.Screen name="IntroScreen" component={IntroScreen} />
-      <Stack.Screen name="AuthScreen" component={AuthScreen} />
-      <Stack.Screen name="SelfieAccount" component={SelfieAccount} />
+      {/* <Stack.Screen name="IntroScreen" component={IntroScreen} /> */}
+      {/* <Stack.Screen name="AuthScreen" component={AuthScreen} />
+      <Stack.Screen name="SelfieAccount" component={SelfieAccount} /> */}
       <Stack.Screen name="DemoScreen" component={DemoScreen} />
       <Stack.Screen name="ExchangeRateScreen" component={ExchangeRateScreen} />
       <Stack.Screen

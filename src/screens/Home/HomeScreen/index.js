@@ -211,7 +211,10 @@ const HomeScreen = ({navigation}) => {
         activeOpacity={0.7}
         style={styles.swiperContainer}
         onPress={() =>
-          navigation.navigate('AccountDetails', {balance: data?.balance})
+          navigation.navigate('AccountDetails', {
+            balance: data?.balance,
+            number: data?.account,
+          })
         }
       >
         <View style={styles.swiperTopRow}>
@@ -306,8 +309,7 @@ const HomeScreen = ({navigation}) => {
           {/* <TouchableOpacity activeOpacity={0.7} style={styles.btnContainer}>
             <Text style={styles.btnTxtStyle}>DEMO</Text>
           </TouchableOpacity> */}
-          {!showDemoCard && (
-            <View
+          {/* <View
               style={{
                 width: (width / 100) * 90,
                 paddingHorizontal: moderateScale(15),
@@ -373,7 +375,7 @@ const HomeScreen = ({navigation}) => {
                 <Text style={styles.smallBtnTxtStyle}>More about IKO</Text>
               </TouchableOpacity>
             </View>
-          )}
+           */}
           <Carousel
             autoplay={false}
             sliderWidth={width}

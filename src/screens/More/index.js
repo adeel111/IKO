@@ -125,7 +125,8 @@ const More = ({navigation}) => {
         <View
           style={{
             backgroundColor: 'white',
-          }}>
+          }}
+        >
           <FlatList
             data={item.data}
             renderItem={ChildRenderItem}
@@ -145,7 +146,8 @@ const More = ({navigation}) => {
           style={{
             flexDirection: 'row',
             alignItems: 'center',
-          }}>
+          }}
+        >
           <Image
             source={item.source}
             resizeMode="contain"
@@ -202,7 +204,7 @@ const More = ({navigation}) => {
             <Text style={styles.bottomButtonTag}>Settings</Text>
           </TouchableOpacity>
           <TouchableOpacity
-            activeOpacity={1}
+            activeOpacity={0.7}
             style={[
               styles.bottomButton,
               {
@@ -210,8 +212,11 @@ const More = ({navigation}) => {
                 borderTopRightRadius: 0,
                 borderBottomLeftRadius: 0,
                 borderWidth: 0,
+                marginBottom: moderateScale(20),
               },
-            ]}>
+            ]}
+            onPress={() => navigation.replace('DemoScreen')}
+          >
             <SimpleLineIcons
               name="logout"
               color="white"
@@ -226,30 +231,9 @@ const More = ({navigation}) => {
                 {
                   color: 'white',
                 },
-              ]}>
+              ]}
+            >
               Log out
-            </Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            activeOpacity={1}
-            style={[
-              styles.bottomButton,
-              {
-                backgroundColor: '#E4202C',
-                borderTopRightRadius: 0,
-                borderBottomLeftRadius: 0,
-                marginBottom: moderateScale(30),
-                borderWidth: 0,
-              },
-            ]}>
-            <Text
-              style={[
-                styles.bottomButtonTag,
-                {
-                  color: 'white',
-                },
-              ]}>
-              Quit DEMO
             </Text>
           </TouchableOpacity>
         </ScrollView>

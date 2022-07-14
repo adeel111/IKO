@@ -104,7 +104,7 @@ const IndividualProfile = () => {
           lable="Log out"
           bgColor="#043570"
         />
-        <AppButton
+        {/* <AppButton
           lable="Quit DEMO"
           bgColor="red"
           textSize={18}
@@ -112,7 +112,7 @@ const IndividualProfile = () => {
             dispatch(handleShowDemoCard(true));
             navigation.replace('AuthScreen');
           }}
-        />
+        /> */}
       </Animatable.View>
     </View>
   );

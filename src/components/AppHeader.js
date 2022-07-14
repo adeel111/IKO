@@ -35,7 +35,8 @@ const AppHeader = ({
       <TouchableOpacity
         activeOpacity={0.7}
         onPress={() => leftIconClick()}
-        style={styles.headerLeftContainer}>
+        style={styles.headerLeftContainer}
+      >
         <View style={styles.txtContainer}>
           <Text style={styles.userName}>
             {userName === 'JI'
@@ -54,7 +55,8 @@ const AppHeader = ({
                   ],
                 }
               : null
-          }>
+          }
+        >
           <AntDesign
             name="down"
             color={'#043570'}
@@ -68,9 +70,7 @@ const AppHeader = ({
       {title === '' ? (
         <Text />
       ) : (
-        <Text style={styles.titleTxtStyle}>
-          {title} {'\n'} <Text style={{color: 'red'}}>Demo</Text>
-        </Text>
+        <Text style={styles.titleTxtStyle}>{title}</Text>
       )}
       {menuIcon ? (
         <Entypo

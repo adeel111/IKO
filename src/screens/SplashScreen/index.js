@@ -15,7 +15,7 @@ const {width, height} = Dimensions.get('window');
 const SplashScreen = ({navigation}) => {
   useEffect(() => {
     setTimeout(() => {
-      navigation.replace('IntroScreen');
+      navigation.replace('DemoScreen');
     }, 2500);
   }, []);
 

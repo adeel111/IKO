@@ -207,7 +207,7 @@ const AccountDetails = ({navigation, route}) => {
           </View>
           <Text style={styles.bankTxtStyle}>PKO KONTO BEZ GRANIC </Text>
           <Text style={styles.numberTxtStyle}>
-            62 (...) 0030 1895{' '}
+            {route?.params?.number}
             <Text style={styles.numberTxtStyle1}> Copy the number</Text>
           </Text>
           <Text style={styles.availableFunds}>Available funds</Text>
