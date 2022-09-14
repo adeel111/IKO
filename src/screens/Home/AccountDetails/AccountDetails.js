@@ -45,7 +45,6 @@ const AccountDetails = ({navigation, route}) => {
       .then(function (response) {
         setData(response.data.data);
         setIsLoading(false);
-        console.log(JSON.stringify(response.data.data));
       })
       .catch(function (error) {
         setIsLoading(false);
@@ -63,7 +62,6 @@ const AccountDetails = ({navigation, route}) => {
     axios(config)
       .then(function (response) {
         setDetails(response?.data?.data);
-        console.log(JSON.stringify(response.data.data));
       })
       .catch(function (error) {
         console.log(error);
@@ -76,9 +74,8 @@ const AccountDetails = ({navigation, route}) => {
         activeOpacity={0.7}
         style={styles.childItemContainer}
         onPress={() => {
-          navigation.navigate('OperationDetails', {details: item?.details});
-        }}
-      >
+          navigation.navigate('OperationDetails', {details: item});
+        }}>
         <Text style={styles.titleTxtStyle}>{item.title}</Text>
         <View style={styles.rowContainer}>
           <Text style={styles.descTxtStyle}>{item.method}</Text>
@@ -161,8 +158,7 @@ const AccountDetails = ({navigation, route}) => {
         <Menu
           onBackdropPress={() => setMenuOpened(false)}
           opened={menuOpened}
-          style={styles.menuContainer}
-        >
+          style={styles.menuContainer}>
           <MenuTrigger text="" />
           <MenuOptions optionsContainerStyle={styles.menuStyle}>
             <MenuOption onSelect={() => setMenuOpened(false)}>
@@ -207,7 +203,10 @@ const AccountDetails = ({navigation, route}) => {
           </View>
           <Text style={styles.bankTxtStyle}>PKO KONTO BEZ GRANIC </Text>
           <Text style={styles.numberTxtStyle}>
-            {route?.params?.number}
+            {route?.params?.number?.slice(0, 3)} (...){' '}
+            {route?.params?.number
+              ?.slice(-8)
+              ?.replace(/\d{4,4}?(?=...)/g, '$& ')}
             <Text style={styles.numberTxtStyle1}> Copy the number</Text>
           </Text>
           <Text style={styles.availableFunds}>Available funds</Text>
@@ -222,7 +221,7 @@ const AccountDetails = ({navigation, route}) => {
             </TouchableOpacity>
             <View style={{width: '45%'}}>
               <Text style={styles.balanceTxtStyle}>{`Blocked balance >`}</Text>
-              <Text style={styles.numberTxtStyle}>-305,10 PLN</Text>
+              <Text style={styles.numberTxtStyle}>0,00 PLN</Text>
             </View>
           </View>
         </View>
@@ -230,15 +229,13 @@ const AccountDetails = ({navigation, route}) => {
           <TouchableOpacity
             activeOpacity={0.7}
             style={styles.tabContainer1(selectedTab)}
-            onPress={() => setSelectedTab(true)}
-          >
+            onPress={() => setSelectedTab(true)}>
             <Text style={styles.tabTxtStyle}>History</Text>
           </TouchableOpacity>
           <TouchableOpacity
             activeOpacity={0.7}
             style={styles.tabContainer1(!selectedTab)}
-            onPress={() => setSelectedTab(false)}
-          >
+            onPress={() => setSelectedTab(false)}>
             <Text style={styles.tabTxtStyle}>Details</Text>
           </TouchableOpacity>
         </View>

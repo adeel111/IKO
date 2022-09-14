@@ -22,7 +22,8 @@ const OperationDetails = ({navigation, route}) => {
   }, []);
 
   useLayoutEffect(() => {
-    setDetails(route?.params?.details[0]);
+    setDetails(route?.params?.details);
+    console.log('Details are ==> ', route?.params?.details);
   }, [route]);
 
   const RenderDetails = () => {
@@ -37,12 +38,12 @@ const OperationDetails = ({navigation, route}) => {
           <Text style={styles.valueTxtStyle}>{details?.nazwa}</Text>
           <Text style={styles.headTxtStyle}>Other party account number</Text>
           <Text style={styles.valueTxtStyle}>{details?.nr_rachunku}</Text>
-          <Text style={styles.headTxtStyle}>From</Text>
+          {/* <Text style={styles.headTxtStyle}>From</Text>
           <Text style={styles.valueTxtStyle}>{details?.od}</Text>
           <Text style={styles.headTxtStyle}>To</Text>
           <Text style={styles.valueTxtStyle}>{details?.do}</Text>
           <Text style={styles.headTxtStyle}>Sender address</Text>
-          <Text style={styles.valueTxtStyle}>{details?.adres}</Text>
+          <Text style={styles.valueTxtStyle}>{details?.adres}</Text> */}
           <Text style={styles.headTxtStyle}>Balance after operation</Text>
           <Text style={styles.valueTxtStyle}>{details?.saldo}</Text>
           <Text style={styles.headTxtStyle}>Transaction Type</Text>
@@ -68,8 +69,7 @@ const OperationDetails = ({navigation, route}) => {
         <Menu
           onBackdropPress={() => setMenuOpened(false)}
           opened={menuOpened}
-          style={styles.menuContainer}
-        >
+          style={styles.menuContainer}>
           <MenuTrigger text="" />
           <MenuOptions optionsContainerStyle={styles.menuStyle}>
             <MenuOption onSelect={() => setMenuOpened(false)}>
@@ -80,36 +80,26 @@ const OperationDetails = ({navigation, route}) => {
           </MenuOptions>
         </Menu>
       </View>
-      {details === undefined || details === null || details?.length === 0 ? (
-        <View style={styles.noDetailsView}>
-          <Text style={styles.noDetailsTxtStyle}>No details found</Text>
+      <View style={styles.detailsContainer}>
+        <Text style={styles.bankTxtStyle}>PKO KONTO ZA ZERO</Text>
+        <Text style={styles.numberTxtStyle}>{details?.pko}</Text>
+      </View>
+      <KeyboardAwareScrollView showsVerticalScrollIndicator={false}>
+        <View style={{padding: 20, paddingTop: 0, backgroundColor: 'white'}}>
+          <Text style={styles.availableFunds}>Amount</Text>
+          <Text style={styles.funds}>{details?.amount}</Text>
+          <Text style={styles.availableFunds}>Operation date</Text>
+          <Text style={styles.numberTxtStyle}>{details?.deta}</Text>
         </View>
-      ) : (
-        <>
-          <View style={styles.detailsContainer}>
-            <Text style={styles.bankTxtStyle}>PKO KONTO ZA ZERO</Text>
-            <Text style={styles.numberTxtStyle}>{details?.pko}</Text>
-          </View>
-          <KeyboardAwareScrollView showsVerticalScrollIndicator={false}>
-            <View
-              style={{padding: 20, paddingTop: 0, backgroundColor: 'white'}}
-            >
-              <Text style={styles.availableFunds}>Amount</Text>
-              <Text style={styles.funds}>{details?.kwota}</Text>
-              <Text style={styles.availableFunds}>Operation date</Text>
-              <Text style={styles.numberTxtStyle}>{details?.deta}</Text>
-            </View>
-            <RenderDetails />
-          </KeyboardAwareScrollView>
-          <View style={{height: '14%', backgroundColor: 'white'}}>
-            <TouchableOpacity activeOpacity={0.7} style={styles.middleButton}>
-              <Text style={styles.middleButtonTag1}>
-                Return via mobile transfer
-              </Text>
-            </TouchableOpacity>
-          </View>
-        </>
-      )}
+        <RenderDetails />
+      </KeyboardAwareScrollView>
+      <View style={{height: '14%'}}>
+        <TouchableOpacity activeOpacity={0.7} style={styles.middleButton}>
+          <Text style={styles.middleButtonTag1}>
+            Return via mobile transfer
+          </Text>
+        </TouchableOpacity>
+      </View>
     </SafeAreaView>
   );
 };

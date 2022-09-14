@@ -36,7 +36,6 @@ const History = ({navigation}) => {
       .then(function (response) {
         setData(response.data.data);
         setIsLoading(false);
-        console.log(JSON.stringify(response.data.data));
       })
       .catch(function (error) {
         setIsLoading(false);
@@ -50,9 +49,8 @@ const History = ({navigation}) => {
         activeOpacity={0.7}
         style={styles.childItemContainer}
         onPress={() => {
-          navigation.navigate('OperationDetails', {details: item?.details});
-        }}
-      >
+          navigation.navigate('OperationDetails', {details: item});
+        }}>
         <Text style={styles.titleTxtStyle}>{item.title}</Text>
         <View style={styles.rowContainer}>
           <Text style={styles.descTxtStyle}>{item.method}</Text>

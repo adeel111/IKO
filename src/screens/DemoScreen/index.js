@@ -73,8 +73,7 @@ const DemoScreen = ({navigation}) => {
         <TouchableOpacity
           style={styles.flatListCircle}
           activeOpacity={0.5}
-          onPress={() => handleRenderItem(item.no)}
-        >
+          onPress={() => handleRenderItem(item.no)}>
           {item.no !== 13 ? (
             <Image source={item.path} style={styles.flatListImage} />
           ) : (
@@ -84,13 +83,11 @@ const DemoScreen = ({navigation}) => {
                 textAlign: 'center',
                 fontSize: moderateScale(14),
                 fontFamily: Theme.fontFamily.regular,
-              }}
-            >
+              }}>
               <Text
                 style={{
                   fontFamily: Theme.fontFamily.bold,
-                }}
-              >
+                }}>
                 i
               </Text>
               PKO{'\n'}
@@ -98,8 +95,7 @@ const DemoScreen = ({navigation}) => {
                 style={{
                   fontSize: moderateScale(11),
                   lineHeight: moderateScale(11),
-                }}
-              >
+                }}>
                 dealer
               </Text>
             </Text>
@@ -168,8 +164,7 @@ const DemoScreen = ({navigation}) => {
             setPin(`${pin.slice(0, -1)}`);
           }
         }}
-        style={styles.keyboardKey}
-      >
+        style={styles.keyboardKey}>
         {item.no === '' ? (
           <Feater name="delete" color={'black'} size={moderateScale(30)} />
         ) : (
@@ -221,8 +216,7 @@ const DemoScreen = ({navigation}) => {
         ref={down}
         contentContainerStyle={{
           paddingBottom: height - (height / 100) * 18 - moderateScale(520),
-        }}
-      >
+        }}>
         <View style={styles.PreviewWrapper}>
           <Text style={styles.previewHeading}>Account balance preview</Text>
           <Text style={styles.previewDescription}>
@@ -235,8 +229,7 @@ const DemoScreen = ({navigation}) => {
           style={{
             paddingVertical: moderateScale(30),
             backgroundColor: 'white',
-          }}
-        >
+          }}>
           <Image
             source={require('../../assets/images/auth.png')}
             style={styles.mainImage}
@@ -258,16 +251,14 @@ const DemoScreen = ({navigation}) => {
                 position: 'absolute',
                 top: moderateScale(5),
                 right: moderateScale(5),
-              }}
-            >
+              }}>
               <MenuTrigger text="" />
               <MenuOptions>
                 <MenuOption
                   onSelect={() => {
                     setMenuOpened(false);
                     navigation.navigate('CustomizeQuickAccess');
-                  }}
-                >
+                  }}>
                   <Text
                     style={{
                       color: 'black',
@@ -275,8 +266,7 @@ const DemoScreen = ({navigation}) => {
                       fontFamily: Theme.fontFamily.regular,
                       paddingVertical: moderateScale(10),
                       paddingLeft: moderateScale(10),
-                    }}
-                  >
+                    }}>
                     Customize dashboard
                   </Text>
                 </MenuOption>
@@ -293,8 +283,7 @@ const DemoScreen = ({navigation}) => {
                 <TouchableOpacity
                   activeOpacity={0.5}
                   onPress={() => navigation.navigate('CustomizeQuickAccess')}
-                  style={[styles.flatListItem, {}]}
-                >
+                  style={[styles.flatListItem, {}]}>
                   <ImageBackground
                     source={require('../../assets/images/circle.png')}
                     resizeMode="contain"
@@ -303,8 +292,7 @@ const DemoScreen = ({navigation}) => {
                       {
                         borderWidth: 0,
                       },
-                    ]}
-                  >
+                    ]}>
                     <Image
                       source={require('../../assets/images/add.png')}
                       style={{
@@ -328,8 +316,7 @@ const DemoScreen = ({navigation}) => {
             setOpened('login');
             loginINBottomSheet.current.open();
           }}
-          style={styles.bottomVerticalButton}
-        >
+          style={styles.bottomVerticalButton}>
           <MaterialIcons name="lock" color={'white'} size={moderateScale(22)} />
           <Text
             style={[
@@ -337,8 +324,7 @@ const DemoScreen = ({navigation}) => {
               {
                 marginLeft: moderateScale(10),
               },
-            ]}
-          >
+            ]}>
             Login
           </Text>
         </TouchableOpacity>
@@ -375,8 +361,7 @@ const DemoScreen = ({navigation}) => {
             borderTopLeftRadius: moderateScale(15),
             borderTopRightRadius: moderateScale(15),
           },
-        }}
-      >
+        }}>
         <Entypo
           name="cross"
           color={'black'}
@@ -398,8 +383,7 @@ const DemoScreen = ({navigation}) => {
             alignItems: 'center',
             justifyContent: 'center',
             marginTop: moderateScale(20),
-          }}
-        >
+          }}>
           {[9, 9, 9, 9].map((k, index) => {
             return (
               <TouchableOpacity
@@ -415,8 +399,7 @@ const DemoScreen = ({navigation}) => {
                   alignItems: 'center',
                   justifyContent: 'center',
                   marginHorizontal: moderateScale(5),
-                }}
-              >
+                }}>
                 <View
                   style={{
                     width: moderateScale(20),
@@ -451,22 +434,19 @@ const DemoScreen = ({navigation}) => {
           container: {
             backgroundColor: 'white',
           },
-        }}
-      >
+        }}>
         <View
           style={[
             styles.header,
             Platform.select({android: {}, ios: {height: 100}}),
-          ]}
-        >
+          ]}>
           <View
             style={{
               paddingTop: Platform.select({android: 0, ios: 40}),
               flexDirection: 'row',
               alignItems: 'center',
               justifyContent: 'center',
-            }}
-          >
+            }}>
             <Entypo
               name="cross"
               color={'#043573'}
@@ -477,8 +457,7 @@ const DemoScreen = ({navigation}) => {
             <View
               style={{
                 marginLeft: moderateScale(20),
-              }}
-            >
+              }}>
               <Text style={styles.headerTag}>Login</Text>
             </View>
           </View>
@@ -488,8 +467,7 @@ const DemoScreen = ({navigation}) => {
             flex: 1,
             paddingBottom: 20,
             backgroundColor: '#F2F2F2',
-          }}
-        >
+          }}>
           <Text
             style={[
               styles.enterPinTopText,
@@ -499,9 +477,8 @@ const DemoScreen = ({navigation}) => {
                 alignSelf: 'center',
                 marginTop: moderateScale(20),
               },
-            ]}
-          >
-            Enter your PIN code to login into demo mode
+            ]}>
+            Enter your PIN code to login
           </Text>
           <View
             style={{
@@ -510,8 +487,7 @@ const DemoScreen = ({navigation}) => {
               alignItems: 'center',
               justifyContent: 'center',
               marginTop: moderateScale(20),
-            }}
-          >
+            }}>
             {[9, 9, 9, 9].map((k, index) => {
               return (
                 <TouchableOpacity
@@ -527,8 +503,7 @@ const DemoScreen = ({navigation}) => {
                     alignItems: 'center',
                     justifyContent: 'center',
                     marginHorizontal: moderateScale(5),
-                  }}
-                >
+                  }}>
                   <View
                     style={{
                       width: moderateScale(20),

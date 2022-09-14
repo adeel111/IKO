@@ -28,20 +28,20 @@ const AppHeader = ({
   const navigation = useNavigation();
   const {userName} = useSelector(state => state.home);
 
-  let showName = userName.split(' ');
+  let showName = userName?.split(' ');
 
   return (
     <View style={styles.header}>
       <TouchableOpacity
         activeOpacity={0.7}
         onPress={() => leftIconClick()}
-        style={styles.headerLeftContainer}
-      >
+        style={styles.headerLeftContainer}>
         <View style={styles.txtContainer}>
           <Text style={styles.userName}>
             {userName === 'JI'
               ? userName
-              : `${showName[0]?.[0]}${showName[showName.length - 1]?.[0]}`}
+              : showName &&
+                `${showName[0]?.[0]}${showName[showName?.length - 1]?.[0]}`}
           </Text>
         </View>
         <Animated.View
@@ -55,8 +55,7 @@ const AppHeader = ({
                   ],
                 }
               : null
-          }
-        >
+          }>
           <AntDesign
             name="down"
             color={'#043570'}

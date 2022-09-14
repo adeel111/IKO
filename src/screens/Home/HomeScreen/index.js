@@ -157,8 +157,7 @@ const HomeScreen = ({navigation}) => {
             flexDirection: 'row',
             alignItems: 'center',
             justifyContent: 'space-between',
-          }}
-        >
+          }}>
           <Text style={styles.flatlistCardTag}>{item?.name}</Text>
           <MaterialCommunityIcons
             name="dots-vertical"
@@ -215,12 +214,14 @@ const HomeScreen = ({navigation}) => {
             balance: data?.balance,
             number: data?.account,
           })
-        }
-      >
+        }>
         <View style={styles.swiperTopRow}>
           <View>
             <Text style={styles.swiperBankName}>PKO Bank Polski</Text>
-            <Text style={styles.swiperHolderName}>PKO KONTO BEZ GRANIC</Text>
+            <Text style={styles.swiperHolderName}>
+              {data?.account?.slice(0, 3)} (...){' '}
+              {data?.account?.slice(-8)?.replace(/\d{4,4}?(?=...)/g, '$& ')}
+            </Text>
           </View>
           <MaterialCommunityIcons
             onPress={() => setMenuOpened(true)}
@@ -245,8 +246,7 @@ const HomeScreen = ({navigation}) => {
                 borderColor: '#888888',
               },
             ]}
-            onPress={() => navigation.navigate('History')}
-          >
+            onPress={() => navigation.navigate('History')}>
             <Fontisto name="history" color="#043570" size={moderateScale(16)} />
             <Text style={[styles.swiperButtonTag, {color: 'black'}]}>
               History
@@ -255,8 +255,7 @@ const HomeScreen = ({navigation}) => {
           <TouchableOpacity
             activeOpacity={0.7}
             style={styles.swiperButtonContainer}
-            onPress={() => navigation.navigate('Transfer')}
-          >
+            onPress={() => navigation.navigate('Transfer')}>
             <FontAwesome name="money" color="white" size={moderateScale(18)} />
             <Text style={styles.swiperButtonTag}>Transfer</Text>
           </TouchableOpacity>
@@ -304,8 +303,7 @@ const HomeScreen = ({navigation}) => {
           contentContainerStyle={{
             paddingBottom: moderateScale(10),
           }}
-          showsVerticalScrollIndicator={false}
-        >
+          showsVerticalScrollIndicator={false}>
           {/* <TouchableOpacity activeOpacity={0.7} style={styles.btnContainer}>
             <Text style={styles.btnTxtStyle}>DEMO</Text>
           </TouchableOpacity> */}
@@ -423,8 +421,7 @@ const HomeScreen = ({navigation}) => {
                 borderBottomLeftRadius: showBlikCode ? 0 : moderateScale(5),
                 borderBottomRightRadius: showBlikCode ? 0 : moderateScale(5),
               },
-            ]}
-          >
+            ]}>
             <View style={styles.blikLeftContainer}>
               <Image
                 style={styles.blik}
@@ -446,8 +443,7 @@ const HomeScreen = ({navigation}) => {
                   setSpinHomeIcon(true);
                 }
               }}
-              style={styles.blikRightContainer}
-            >
+              style={styles.blikRightContainer}>
               <Animated.View
                 style={
                   spinHomeIcon
@@ -459,8 +455,7 @@ const HomeScreen = ({navigation}) => {
                         ],
                       }
                     : {}
-                }
-              >
+                }>
                 <AntDesign
                   name="down"
                   color={'#043570'}
@@ -483,8 +478,7 @@ const HomeScreen = ({navigation}) => {
                   borderRadius: 100,
                   marginTop: moderateScale(10),
                   overflow: 'hidden',
-                }}
-              >
+                }}>
                 <View
                   style={{
                     height: '100%',
