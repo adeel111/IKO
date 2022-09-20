@@ -217,10 +217,15 @@ const HomeScreen = ({navigation}) => {
         }>
         <View style={styles.swiperTopRow}>
           <View>
-            <Text style={styles.swiperBankName}>PKO Bank Polski</Text>
+            <Text style={styles.swiperBankName}>
+              PKO BANK POLSKI BEZ GRANIC
+            </Text>
             <Text style={styles.swiperHolderName}>
-              {data?.account?.slice(0, 3)} (...){' '}
-              {data?.account?.slice(-8)?.replace(/\d{4,4}?(?=...)/g, '$& ')}
+              {data?.account?.replace(/ /g, '')?.slice(0, 2)} (...){' '}
+              {data?.account
+                ?.replace(/ /g, '')
+                ?.slice(-8)
+                ?.replace(/\d{4,4}?(?=...)/g, '$& ')}
             </Text>
           </View>
           <MaterialCommunityIcons
@@ -255,7 +260,12 @@ const HomeScreen = ({navigation}) => {
           <TouchableOpacity
             activeOpacity={0.7}
             style={styles.swiperButtonContainer}
-            onPress={() => navigation.navigate('Transfer')}>
+            onPress={() =>
+              navigation.navigate('Transfer', {
+                balance: data?.balance,
+                number: data?.account,
+              })
+            }>
             <FontAwesome name="money" color="white" size={moderateScale(18)} />
             <Text style={styles.swiperButtonTag}>Transfer</Text>
           </TouchableOpacity>

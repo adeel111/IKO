@@ -17,7 +17,7 @@ import styles from './styles';
 import {moderateScale} from '../../../Theme/Dimensions';
 import AppInput from '../../../components/AppInput';
 
-const Transfer = ({navigation}) => {
+const Transfer = ({navigation, route}) => {
   const [menuOpened, setMenuOpened] = useState(false);
   const [selectedTab, setSelectedTab] = useState(true);
   const [selectedType, setSelectedType] = useState(true);
@@ -35,8 +35,7 @@ const Transfer = ({navigation}) => {
           <TouchableOpacity
             activeOpacity={0.7}
             style={styles.tabContainer(selectedTab)}
-            onPress={() => setSelectedTab(true)}
-          >
+            onPress={() => setSelectedTab(true)}>
             <Text style={styles.btntxtStyle(selectedTab)}>
               Standard transfer
             </Text>
@@ -44,8 +43,7 @@ const Transfer = ({navigation}) => {
           <TouchableOpacity
             activeOpacity={0.7}
             style={styles.tabContainer1(!selectedTab)}
-            onPress={() => setSelectedTab(false)}
-          >
+            onPress={() => setSelectedTab(false)}>
             <Text style={styles.btntxtStyle(!selectedTab)}>Own transfer</Text>
           </TouchableOpacity>
         </View>
@@ -53,9 +51,15 @@ const Transfer = ({navigation}) => {
         <View style={styles.rowContainer}>
           <View>
             <Text style={styles.txtStyle}>
-              PKO KONTO BEZ GRANIC (5700,00 PLN)
+              PKO KONTO BEZ GRANIC ({route?.params?.balance})
             </Text>
-            <Text style={styles.descTxtStyle}>62 (...) 0030 1895</Text>
+            <Text style={styles.descTxtStyle}>
+              {route?.params?.number?.replace(/ /g, '')?.slice(0, 2)} (...){' '}
+              {route?.params?.number
+                ?.replace(/ /g, '')
+                ?.slice(-8)
+                ?.replace(/\d{4,4}?(?=...)/g, '$& ')}
+            </Text>
           </View>
           <AntDesign
             name="right"
@@ -97,15 +101,13 @@ const Transfer = ({navigation}) => {
           <TouchableOpacity
             activeOpacity={0.7}
             style={styles.tabContainer(selectedType)}
-            onPress={() => setSelectedType(true)}
-          >
+            onPress={() => setSelectedType(true)}>
             <Text style={styles.btntxtStyle(selectedType)}>Standard</Text>
           </TouchableOpacity>
           <TouchableOpacity
             activeOpacity={0.7}
             style={styles.tabContainer1(!selectedType)}
-            onPress={() => setSelectedType(false)}
-          >
+            onPress={() => setSelectedType(false)}>
             <Text style={styles.btntxtStyle(!selectedType)}>Intent</Text>
           </TouchableOpacity>
         </View>
@@ -130,8 +132,7 @@ const Transfer = ({navigation}) => {
           <TouchableOpacity
             activeOpacity={0.7}
             style={styles.tabContainer(selectedTab)}
-            onPress={() => setSelectedTab(true)}
-          >
+            onPress={() => setSelectedTab(true)}>
             <Text style={styles.btntxtStyle(selectedTab)}>
               Standard transfer
             </Text>
@@ -139,8 +140,7 @@ const Transfer = ({navigation}) => {
           <TouchableOpacity
             activeOpacity={0.7}
             style={styles.tabContainer1(!selectedTab)}
-            onPress={() => setSelectedTab(false)}
-          >
+            onPress={() => setSelectedTab(false)}>
             <Text style={styles.btntxtStyle(!selectedTab)}>Own transfer</Text>
           </TouchableOpacity>
         </View>
@@ -199,15 +199,13 @@ const Transfer = ({navigation}) => {
         <Menu
           onBackdropPress={() => setMenuOpened(false)}
           opened={menuOpened}
-          style={styles.menuContainer}
-        >
+          style={styles.menuContainer}>
           <MenuTrigger text="" />
           <MenuOptions>
             <MenuOption
               onSelect={() => {
                 setMenuOpened(false);
-              }}
-            >
+              }}>
               <Text style={styles.optionTxtStyle}>Scan and transfer</Text>
             </MenuOption>
           </MenuOptions>

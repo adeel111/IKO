@@ -54,7 +54,7 @@ const History = ({navigation}) => {
         <Text style={styles.titleTxtStyle}>{item.title}</Text>
         <View style={styles.rowContainer}>
           <Text style={styles.descTxtStyle}>{item.method}</Text>
-          <Text style={styles.titleTxtStyle}>{item.amount + 'N'}</Text>
+          <Text style={styles.titleTxtStyle}>{item.amount}</Text>
         </View>
       </TouchableOpacity>
     );

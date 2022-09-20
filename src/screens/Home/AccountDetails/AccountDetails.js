@@ -79,7 +79,7 @@ const AccountDetails = ({navigation, route}) => {
         <Text style={styles.titleTxtStyle}>{item.title}</Text>
         <View style={styles.rowContainer}>
           <Text style={styles.descTxtStyle}>{item.method}</Text>
-          <Text style={styles.titleTxtStyle}>{item.amount + 'N'}</Text>
+          <Text style={styles.titleTxtStyle}>{item.amount}</Text>
         </View>
       </TouchableOpacity>
     );
@@ -115,8 +115,8 @@ const AccountDetails = ({navigation, route}) => {
           <Text style={styles.valueTxtStyle}>{details?.saldo_deste}</Text>
           <Text style={styles.headTxtStyle}>ACCOUNTING BALANCE</Text>
           <Text style={styles.valueTxtStyle}>{details?.saldo_k}</Text>
-          {/* <Text style={styles.headTxtStyle}>BRANCH LEADING THE ACCOUNT</Text>
-          <Text style={styles.valueTxtStyle}>{details?.oprocent}</Text> */}
+          <Text style={styles.headTxtStyle}>BRANCH LEADING THE ACCOUNT</Text>
+          <Text style={styles.valueTxtStyle}>{details?.oprocent}</Text>
           <Text style={styles.headTxtStyle}>INTEREST INCOME</Text>
           <Text style={styles.valueTxtStyle}>{details?.oprocent}</Text>
           <Text style={styles.headTxtStyle}>OPENING DATE</Text>
@@ -134,7 +134,7 @@ const AccountDetails = ({navigation, route}) => {
         </View>
         <View style={{padding: 20}}>
           <Text style={styles.headTxtStyle}>
-            Due to security reasons, we did the list of account{'\n'}holders and
+            Due to security reasons, we hid the list of account holders and
             proxies
           </Text>
           <Text style={[styles.numberTxtStyle1, {marginTop: 20}]}>
@@ -198,13 +198,11 @@ const AccountDetails = ({navigation, route}) => {
       </View>
       <KeyboardAwareScrollView showsVerticalScrollIndicator={false}>
         <View style={{paddingHorizontal: 20, backgroundColor: 'white'}}>
-          <View style={styles.txtContainer}>
-            <Text style={styles.txtStyle}>PKO Bank Polski</Text>
-          </View>
           <Text style={styles.bankTxtStyle}>PKO KONTO BEZ GRANIC </Text>
           <Text style={styles.numberTxtStyle}>
-            {route?.params?.number?.slice(0, 3)} (...){' '}
+            {route?.params?.number?.replace(/ /g, '')?.slice(0, 2)} (...){' '}
             {route?.params?.number
+              ?.replace(/ /g, '')
               ?.slice(-8)
               ?.replace(/\d{4,4}?(?=...)/g, '$& ')}
             <Text style={styles.numberTxtStyle1}> Copy the number</Text>

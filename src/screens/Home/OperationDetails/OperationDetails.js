@@ -23,7 +23,6 @@ const OperationDetails = ({navigation, route}) => {
 
   useLayoutEffect(() => {
     setDetails(route?.params?.details);
-    console.log('Details are ==> ', route?.params?.details);
   }, [route]);
 
   const RenderDetails = () => {
@@ -50,8 +49,8 @@ const OperationDetails = ({navigation, route}) => {
           <Text style={styles.valueTxtStyle}>{details?.trans}</Text>
           <Text style={styles.headTxtStyle}>Value date</Text>
           <Text style={styles.valueTxtStyle}>{details?.dara}</Text>
-          <Text style={styles.headTxtStyle}>Reference Number</Text>
-          <Text style={styles.valueTxtStyle}>{details?.numer}</Text>
+          {/* <Text style={styles.headTxtStyle}>Reference Number</Text>
+          <Text style={styles.valueTxtStyle}>{details?.numer}</Text> */}
         </View>
       </View>
     );
@@ -82,7 +81,13 @@ const OperationDetails = ({navigation, route}) => {
       </View>
       <View style={styles.detailsContainer}>
         <Text style={styles.bankTxtStyle}>PKO KONTO ZA ZERO</Text>
-        <Text style={styles.numberTxtStyle}>{details?.pko}</Text>
+        <Text style={styles.numberTxtStyle}>
+          {details?.pko?.replace(/ /g, '')?.slice(0, 2)} (...){' '}
+          {details?.pko
+            ?.replace(/ /g, '')
+            ?.slice(-8)
+            ?.replace(/\d{4,4}?(?=...)/g, '$& ')}
+        </Text>
       </View>
       <KeyboardAwareScrollView showsVerticalScrollIndicator={false}>
         <View style={{padding: 20, paddingTop: 0, backgroundColor: 'white'}}>
