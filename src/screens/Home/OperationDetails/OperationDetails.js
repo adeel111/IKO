@@ -94,7 +94,7 @@ const OperationDetails = ({navigation, route}) => {
           <Text style={styles.availableFunds}>Amount</Text>
           <Text style={styles.funds}>{details?.amount}</Text>
           <Text style={styles.availableFunds}>Operation date</Text>
-          <Text style={styles.numberTxtStyle}>{details?.deta}</Text>
+          <Text style={styles.numberTxtStyle}>{details?.date}</Text>
         </View>
         <RenderDetails />
       </KeyboardAwareScrollView>

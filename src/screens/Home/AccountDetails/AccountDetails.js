@@ -38,7 +38,7 @@ const AccountDetails = ({navigation, route}) => {
     var axios = require('axios');
     var config = {
       method: 'get',
-      url: 'https://workingsoftwarecopy.xyz/api/get-history',
+      url: 'https://www.workingsoftware.site/api/get-history',
       headers: {},
     };
     axios(config)
@@ -56,7 +56,7 @@ const AccountDetails = ({navigation, route}) => {
     var axios = require('axios');
     var config = {
       method: 'get',
-      url: 'http://workingsoftwarecopy.xyz/api/histry-detail',
+      url: 'https://www.workingsoftware.site/api/histry-detail',
       headers: {},
     };
     axios(config)
@@ -94,7 +94,7 @@ const AccountDetails = ({navigation, route}) => {
         renderSectionHeader={({section: {title}}) => (
           <View style={styles.headerTextView}>
             <Text style={styles.secitonListHeader}>
-              {moment(title).format('L')}
+              {title.substring(0, title.indexOf(' '))}
             </Text>
           </View>
         )}

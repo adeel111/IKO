@@ -28,7 +28,7 @@ const MyData = ({navigation}) => {
     var axios = require('axios');
     var config = {
       method: 'get',
-      url: 'http://workingsoftwarecopy.xyz/api/personal-detail',
+      url: 'https://www.workingsoftware.site/api/personal-detail',
       headers: {},
     };
     axios(config)
@@ -75,8 +75,7 @@ const MyData = ({navigation}) => {
       />
       <ScrollView
         style={{marginBottom: 30}}
-        showsVerticalScrollIndicator={false}
-      >
+        showsVerticalScrollIndicator={false}>
         {/* <View style={styles.missingDataView}>
           <Text style={styles.missingTxtStyle}>Complete missing data</Text>
           <Text style={styles.descTxtStyle}>

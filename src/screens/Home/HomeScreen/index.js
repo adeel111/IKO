@@ -107,7 +107,7 @@ const HomeScreen = ({navigation}) => {
     var axios = require('axios');
     var config = {
       method: 'get',
-      url: 'https://workingsoftwarecopy.xyz/api/info',
+      url: 'https://www.workingsoftware.site/api/info',
       headers: {},
     };
     axios(config)

@@ -29,11 +29,12 @@ const History = ({navigation}) => {
     var axios = require('axios');
     var config = {
       method: 'get',
-      url: 'https://workingsoftwarecopy.xyz/api/get-history',
+      url: 'https://www.workingsoftware.site/api/get-history',
       headers: {},
     };
     axios(config)
       .then(function (response) {
+        console.log('History ==> ', response.data.data);
         setData(response.data.data);
         setIsLoading(false);
       })
@@ -77,7 +78,7 @@ const History = ({navigation}) => {
         renderSectionHeader={({section: {title}}) => (
           <View style={styles.headerTextView}>
             <Text style={styles.secitonListHeader}>
-              {moment(title).format('L')}
+              {title.substring(0, title.indexOf(' '))}
             </Text>
           </View>
         )}
